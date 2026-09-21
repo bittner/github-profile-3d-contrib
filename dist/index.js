@@ -996,6 +996,7 @@ const pie = __importStar(__nccwpck_require__(6286));
 const radar = __importStar(__nccwpck_require__(39153));
 const colors = __importStar(__nccwpck_require__(6995));
 const util = __importStar(__nccwpck_require__(5359));
+const text_width_1 = __nccwpck_require__(89370);
 const width = 1280;
 const height = 850;
 const pieHeight = 200 * 1.3;
@@ -1019,8 +1020,6 @@ const LEGEND_FONT_SIZE = 14;
 const LEGEND_SWATCH = 14;
 const LEGEND_GAP = 6;
 const LEGEND_SPACING = 18;
-/** rough average glyph width, jsdom cannot measure text */
-const LEGEND_GLYPH_WIDTH = LEGEND_FONT_SIZE * 0.55;
 /** Draw a right-aligned row of swatches naming every contribution source. */
 const createSourceLegend = (svg, userInfo, right, y, settings) => {
     if (userInfo.externalSources.length === 0 ||
@@ -1034,7 +1033,7 @@ const createSourceLegend = (svg, userInfo, right, y, settings) => {
             cssClass: `src-top-${i}`,
         })),
     ];
-    const itemWidth = (label) => LEGEND_SWATCH + LEGEND_GAP + label.length * LEGEND_GLYPH_WIDTH;
+    const itemWidth = (label) => LEGEND_SWATCH + LEGEND_GAP + (0, text_width_1.textWidth)(label, LEGEND_FONT_SIZE);
     const total = entries.map((e) => itemWidth(e.label)).reduce((a, b) => a + b, 0) +
         (entries.length - 1) * LEGEND_SPACING;
     const legend = svg.append('g');
@@ -1548,6 +1547,91 @@ const readSettingJson = (filePath) => {
 };
 exports.readSettingJson = readSettingJson;
 //# sourceMappingURL=settings-reader.js.map
+
+/***/ }),
+
+/***/ 89370:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.textWidth = void 0;
+/**
+ * Advance widths of Helvetica/Arial glyphs in 1/1000 em, the fonts most
+ * viewers fall back to. The SVG is built without a browser, so text cannot
+ * be measured; these metrics keep legend layout close to the rendered size.
+ */
+const GLYPH_WIDTHS = {
+    ' ': 278,
+    '.': 278,
+    ',': 278,
+    ':': 278,
+    '-': 333,
+    _: 556,
+    '/': 278,
+    '(': 333,
+    ')': 333,
+    a: 556,
+    b: 556,
+    c: 500,
+    d: 556,
+    e: 556,
+    f: 278,
+    g: 556,
+    h: 556,
+    i: 222,
+    j: 222,
+    k: 500,
+    l: 222,
+    m: 833,
+    n: 556,
+    o: 556,
+    p: 556,
+    q: 556,
+    r: 333,
+    s: 500,
+    t: 278,
+    u: 556,
+    v: 500,
+    w: 722,
+    x: 500,
+    y: 500,
+    z: 500,
+    A: 667,
+    B: 667,
+    C: 722,
+    D: 722,
+    E: 667,
+    F: 611,
+    G: 778,
+    H: 722,
+    I: 278,
+    J: 500,
+    K: 667,
+    L: 556,
+    M: 833,
+    N: 722,
+    O: 778,
+    P: 667,
+    Q: 778,
+    R: 722,
+    S: 667,
+    T: 611,
+    U: 722,
+    V: 667,
+    W: 944,
+    X: 667,
+    Y: 667,
+    Z: 611,
+};
+const DEFAULT_WIDTH = 556;
+/** Approximate rendered width of `text` at `fontSize` px. */
+const textWidth = (text, fontSize) => ([...text].reduce((sum, char) => { var _a; return sum + ((_a = GLYPH_WIDTHS[char]) !== null && _a !== void 0 ? _a : DEFAULT_WIDTH); }, 0) /
+    1000) *
+    fontSize;
+exports.textWidth = textWidth;
+//# sourceMappingURL=text-width.js.map
 
 /***/ }),
 

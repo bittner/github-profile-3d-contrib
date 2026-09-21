@@ -6,6 +6,7 @@ import * as radar from './create-radar-contrib';
 import * as colors from './create-css-colors';
 import * as util from './utils';
 import * as type from './type';
+import { textWidth } from './text-width';
 
 const width = 1280;
 const height = 850;
@@ -34,8 +35,6 @@ const LEGEND_FONT_SIZE = 14;
 const LEGEND_SWATCH = 14;
 const LEGEND_GAP = 6;
 const LEGEND_SPACING = 18;
-/** rough average glyph width, jsdom cannot measure text */
-const LEGEND_GLYPH_WIDTH = LEGEND_FONT_SIZE * 0.55;
 
 /** Draw a right-aligned row of swatches naming every contribution source. */
 const createSourceLegend = (
@@ -59,7 +58,7 @@ const createSourceLegend = (
         })),
     ];
     const itemWidth = (label: string): number =>
-        LEGEND_SWATCH + LEGEND_GAP + label.length * LEGEND_GLYPH_WIDTH;
+        LEGEND_SWATCH + LEGEND_GAP + textWidth(label, LEGEND_FONT_SIZE);
     const total =
         entries.map((e) => itemWidth(e.label)).reduce((a, b) => a + b, 0) +
         (entries.length - 1) * LEGEND_SPACING;
