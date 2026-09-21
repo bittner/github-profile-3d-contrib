@@ -170,6 +170,8 @@ on:
 - `profile-3d-contrib/profile-gitblock.svg`
 - `profile-3d-contrib/profile-gitblock-animate.svg`
 
+每張圖片都同時包含淺色和深色配色方案，並依檢視者瀏覽器回報的配色方案（`prefers-color-scheme`）自動切換。沒有單獨的淺色或深色檔案可供選擇。如果您需要固定為單一配色方案的圖片，請透過 `SETTING_JSON` 使用不含 `darkMode` 區塊的設定檔，例如 `sample-settings/` 中的大多數檔案。
+
 若指定 `SETTING_JSON` 環境變數且 json 檔案未含 `fileName` 屬性，將產生以下圖片：
 
 - `profile-3d-contrib/profile-customize.svg`

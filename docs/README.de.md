@@ -170,6 +170,8 @@ Die Profilbilder werden an den folgenden Pfaden generiert:
 - `profile-3d-contrib/profile-gitblock.svg`
 - `profile-3d-contrib/profile-gitblock-animate.svg`
 
+Jedes Bild enthält sowohl ein helles als auch ein dunkles Farbschema und wechselt automatisch zwischen ihnen, je nach dem Farbschema, das der Browser des Betrachters meldet (`prefers-color-scheme`). Es gibt keine separate helle oder dunkle Datei zur Auswahl. Wenn Sie ein Bild mit festem Schema möchten, verwenden Sie `SETTING_JSON` mit einer Einstellungsdatei ohne `darkMode`-Block, wie die meisten Dateien in `sample-settings/`.
+
 Wenn Sie die Umgebungsvariable `SETTING_JSON` ohne die Eigenschaft `fileName` in der JSON-Datei angeben, wird folgendes Bild generiert:
 
 - `profile-3d-contrib/profile-customize.svg`

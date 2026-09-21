@@ -170,6 +170,8 @@ Les images de profil sont générées aux chemins suivants :
 - `profile-3d-contrib/profile-gitblock.svg`
 - `profile-3d-contrib/profile-gitblock-animate.svg`
 
+Chaque image contient à la fois un jeu de couleurs clair et un jeu sombre, et bascule automatiquement de l'un à l'autre selon le jeu de couleurs signalé par le navigateur du lecteur (`prefers-color-scheme`). Il n'y a pas de fichier clair ou sombre distinct à choisir. Si vous voulez une image figée sur un seul jeu, utilisez `SETTING_JSON` avec un fichier de configuration sans bloc `darkMode`, comme la plupart des fichiers de `sample-settings/`.
+
 Si vous spécifiez la variable d'environnement `SETTING_JSON` sans propriété `fileName` dans le fichier json, l'image suivante sera générée :
 
 - `profile-3d-contrib/profile-customize.svg`

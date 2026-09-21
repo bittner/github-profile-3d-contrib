@@ -167,6 +167,8 @@ on:
 - `profile-3d-contrib/profile-gitblock.svg`
 - `profile-3d-contrib/profile-gitblock-animate.svg`
 
+すべての画像はライトとダークの両方の配色を含み、閲覧者のブラウザが報告する配色（`prefers-color-scheme`）に従って自動的に切り替わります。ライト版・ダーク版のファイルを別々に選ぶことはできません。配色を固定した画像が必要な場合は、`sample-settings/` の多くのファイルのように `darkMode` ブロックを持たない設定ファイルを `SETTING_JSON` で指定してください。
+
 あるいは、`SETTING_JSON` を指定した場合は、以下のファイルが生成されます。
 
 - `profile-3d-contrib/profile-customize.svg`

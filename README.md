@@ -172,6 +172,8 @@ The profile images are generated at the following paths:
 - `profile-3d-contrib/profile-gitblock.svg`
 - `profile-3d-contrib/profile-gitblock-animate.svg`
 
+Every image contains both a light and a dark colour scheme and switches between them automatically, following the colour scheme the viewer's browser reports (`prefers-color-scheme`). There is no separate light or dark file to choose. If you want an image fixed to one scheme, use `SETTING_JSON` with a settings file that has no `darkMode` block, like most of the files in `sample-settings/`.
+
 If you specify the `SETTING_JSON` environment variable without a `fileName` property in the json file, the following image will be generated:
 
 - `profile-3d-contrib/profile-customize.svg`

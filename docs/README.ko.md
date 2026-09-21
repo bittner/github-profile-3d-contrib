@@ -170,6 +170,8 @@ on:
 - `profile-3d-contrib/profile-gitblock.svg`
 - `profile-3d-contrib/profile-gitblock-animate.svg`
 
+모든 이미지는 밝은 색상 구성과 어두운 색상 구성을 모두 포함하며, 보는 사람의 브라우저가 알려주는 색상 구성(`prefers-color-scheme`)에 따라 자동으로 전환됩니다. 별도의 밝은 파일이나 어두운 파일을 선택할 수는 없습니다. 하나의 구성으로 고정된 이미지를 원한다면 `sample-settings/`의 대부분 파일처럼 `darkMode` 블록이 없는 설정 파일을 `SETTING_JSON`으로 지정하세요.
+
 `SETTING_JSON` 환경 변수를 지정하고 json 파일에 `fileName` 속성이 없으면 다음 이미지가 생성됩니다:
 
 - `profile-3d-contrib/profile-customize.svg`
