@@ -94,14 +94,16 @@ jobs:
 
 サンプルでは `GITHUB_TOKEN`、`USERNAME`、`EXTERNAL_SOURCES` を指定していますが、以下の環境変数を指定できます：
 
-- `GITHUB_TOKEN` : (必須) アクセストークン
-- `USERNAME` : (必須) 対象のユーザー名. （あるいは引数で指定する）
-- `MAX_REPOS` : (任意) 最大のリポジトリ数。デフォルトは100 - バージョン 0.2.0 で追加
-- `SETTING_JSON` : (任意) 設定JSONファイルパス。詳細は `bittner/github-profile-3d-contrib` リポジトリの `sample-settings/*.json` や `src/type.ts` を参照してください - バージョン 0.6.0 で追加
-- `GITHUB_ENDPOINT` : (任意) Github GraphQL エンドポイント。たとえば、GitHub.comではなく、会社のGitHub Enterpriseのアクティビティに基づいてコントリビュートカレンダーを作成したい場合は、この環境変数を設定します。例： `https://github.mycompany.com/api/graphql` - バージョン 0.8.0 で追加
-- `YEAR` : (任意) 過去のカレンダーを出力する場合、年を指定。特にコマンドラインからツールを実行するときを想定しています。 - バージョン 0.8.0 で追加
-- `THEMES` : (任意) `SETTING_JSON` を指定しない場合に生成する組み込みテーマのカンマ区切りリスト。例: `green-animate,gitblock`。指定可能: `green`、`green-animate`、`season`、`season-animate`、`south-season`、`south-season-animate`、`blue`、`blue-animate`、`rainbow`、`rainbow-animate`、`gitblock`、`gitblock-animate`。既定ではすべて生成します。すべてのテーマは閲覧者のダークモードに自動的に適応します。
-- `EXTERNAL_SOURCES` : (任意) 他のフォージのコントリビューションフィードを JSON 配列で指定します。GitHub のバーの上にそれぞれの色で積み上げて描画されます。各要素には `name`（凡例のラベル）、`type`（GitLab インスタンスは `gitlab`、Codeberg などの Forgejo/Gitea インスタンスは `forgejo`）、`url`（インスタンスのベース URL）、`user` が必要です。`color` と `darkColor`（`#RRGGBB`、後者はダークモード用）は任意です。下記の [外部ソース](#外部ソース) を参照してください。
+| 変数 | 必須 | 説明 |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | 必須 | アクセストークン |
+| `USERNAME` | 必須 | 対象のユーザー名. （あるいは引数で指定する） |
+| `MAX_REPOS` | 任意 | 最大のリポジトリ数。デフォルトは100 - バージョン 0.2.0 で追加 |
+| `SETTING_JSON` | 任意 | 設定JSONファイルパス。詳細は `bittner/github-profile-3d-contrib` リポジトリの `sample-settings/*.json` や `src/type.ts` を参照してください - バージョン 0.6.0 で追加 |
+| `GITHUB_ENDPOINT` | 任意 | Github GraphQL エンドポイント。たとえば、GitHub.comではなく、会社のGitHub Enterpriseのアクティビティに基づいてコントリビュートカレンダーを作成したい場合は、この環境変数を設定します。例： `https://github.mycompany.com/api/graphql` - バージョン 0.8.0 で追加 |
+| `YEAR` | 任意 | 過去のカレンダーを出力する場合、年を指定。特にコマンドラインからツールを実行するときを想定しています。 - バージョン 0.8.0 で追加 |
+| `THEMES` | 任意 | `SETTING_JSON` を指定しない場合に生成する組み込みテーマのカンマ区切りリスト。例: `green-animate,gitblock`。指定可能: `green`、`green-animate`、`season`、`season-animate`、`south-season`、`south-season-animate`、`blue`、`blue-animate`、`rainbow`、`rainbow-animate`、`gitblock`、`gitblock-animate`。既定ではすべて生成します。すべてのテーマは閲覧者のダークモードに自動的に適応します。 |
+| `EXTERNAL_SOURCES` | 任意 | 他のフォージのコントリビューションフィードを JSON 配列で指定します。GitHub のバーの上にそれぞれの色で積み上げて描画されます。各要素には `name`（凡例のラベル）、`type`（GitLab インスタンスは `gitlab`、Codeberg などの Forgejo/Gitea インスタンスは `forgejo`）、`url`（インスタンスのベース URL）、`user` が必要です。`color` と `darkColor`（`#RRGGBB`、後者はダークモード用）は任意です。下記の [外部ソース](#外部ソース) を参照してください。 |
 
 #### `GITHUB_TOKEN` について
 

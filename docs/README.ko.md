@@ -97,14 +97,16 @@ jobs:
 
 샘플에서는 `GITHUB_TOKEN`, `USERNAME`, `EXTERNAL_SOURCES`가 환경 변수로 지정되어 있지만, 다음 환경 변수를 지정할 수 있습니다:
 
-- `GITHUB_TOKEN` : (필수) 액세스 토큰
-- `USERNAME` : (필수) 대상 사용자 이름 (또는 인수로 지정)
-- `MAX_REPOS` : (선택) 최대 저장소 수, 기본값 100 - ver. 0.2.0부터
-- `SETTING_JSON` : (선택) 설정 json 파일 경로. 자세한 내용은 `sample-settings/*.json` 및 `src/type.ts`를 참고하세요. - ver. 0.6.0부터
-- `GITHUB_ENDPOINT` : (선택) Github GraphQL 엔드포인트. 예를 들어, 회사의 GitHub Enterprise 활동을 기반으로 기여도 캘린더를 만들고 싶다면 이 환경 변수를 설정하세요. 예: `https://github.mycompany.com/api/graphql` - ver. 0.8.0부터
-- `YEAR` : (선택) 과거 캘린더를 위해 연도를 지정하세요. 커맨드라인에서 도구를 실행할 때 지정합니다. - ver. 0.8.0부터
-- `THEMES` : (선택) `SETTING_JSON`이 설정되지 않았을 때 생성할 내장 테마의 쉼표로 구분된 목록. 예: `green-animate,gitblock`. 사용 가능: `green`, `green-animate`, `season`, `season-animate`, `south-season`, `south-season-animate`, `blue`, `blue-animate`, `rainbow`, `rainbow-animate`, `gitblock`, `gitblock-animate`. 기본값은 전체입니다. 모든 테마는 보는 사람의 다크 모드에 자동으로 맞춰지며.
-- `EXTERNAL_SOURCES` : (선택) 다른 포지의 기여도 피드를 담은 JSON 배열로, GitHub 막대 위에 각자의 색상으로 쌓입니다. 각 항목에는 `name`(범례 라벨), `type`(GitLab 인스턴스는 `gitlab`, Codeberg 같은 Forgejo/Gitea 인스턴스는 `forgejo`), `url`(인스턴스의 기본 URL), `user`가 필요합니다. `color`와 `darkColor`(`#RRGGBB`, 후자는 다크 모드용)는 선택 사항입니다. 아래 [외부 소스](#외부-소스)를 참고하세요.
+| 변수 | 필수 여부 | 설명 |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | 필수 | 액세스 토큰 |
+| `USERNAME` | 필수 | 대상 사용자 이름 (또는 인수로 지정) |
+| `MAX_REPOS` | 선택 | 최대 저장소 수, 기본값 100 - ver. 0.2.0부터 |
+| `SETTING_JSON` | 선택 | 설정 json 파일 경로. 자세한 내용은 `sample-settings/*.json` 및 `src/type.ts`를 참고하세요. - ver. 0.6.0부터 |
+| `GITHUB_ENDPOINT` | 선택 | Github GraphQL 엔드포인트. 예를 들어, 회사의 GitHub Enterprise 활동을 기반으로 기여도 캘린더를 만들고 싶다면 이 환경 변수를 설정하세요. 예: `https://github.mycompany.com/api/graphql` - ver. 0.8.0부터 |
+| `YEAR` | 선택 | 과거 캘린더를 위해 연도를 지정하세요. 커맨드라인에서 도구를 실행할 때 지정합니다. - ver. 0.8.0부터 |
+| `THEMES` | 선택 | `SETTING_JSON`이 설정되지 않았을 때 생성할 내장 테마의 쉼표로 구분된 목록. 예: `green-animate,gitblock`. 사용 가능: `green`, `green-animate`, `season`, `season-animate`, `south-season`, `south-season-animate`, `blue`, `blue-animate`, `rainbow`, `rainbow-animate`, `gitblock`, `gitblock-animate`. 기본값은 전체입니다. 모든 테마는 보는 사람의 다크 모드에 자동으로 맞춰지며. |
+| `EXTERNAL_SOURCES` | 선택 | 다른 포지의 기여도 피드를 담은 JSON 배열로, GitHub 막대 위에 각자의 색상으로 쌓입니다. 각 항목에는 `name`(범례 라벨), `type`(GitLab 인스턴스는 `gitlab`, Codeberg 같은 Forgejo/Gitea 인스턴스는 `forgejo`), `url`(인스턴스의 기본 URL), `user`가 필요합니다. `color`와 `darkColor`(`#RRGGBB`, 후자는 다크 모드용)는 선택 사항입니다. 아래 [외부 소스](#외부-소스)를 참고하세요. |
 
 #### `GITHUB_TOKEN`에 대하여
 

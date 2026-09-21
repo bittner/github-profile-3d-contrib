@@ -97,14 +97,16 @@ jobs:
 
 示例中指定了 `GITHUB_TOKEN`、`USERNAME` 和 `EXTERNAL_SOURCES` 环境变量，但您可以指定以下环境变量：
 
-- `GITHUB_TOKEN` : （必需）访问令牌
-- `USERNAME` : （必需）目标用户名（或通过参数指定）。
-- `MAX_REPOS` : （可选）最大仓库数，默认 100 - 自 v0.2.0 起
-- `SETTING_JSON` : （可选）设置 json 文件路径。详情请参见仓库中的 `sample-settings/*.json` 和 `src/type.ts`。- 自 v0.6.0 起
-- `GITHUB_ENDPOINT` : （可选）Github GraphQL 端点。例如，如果您希望基于公司 GitHub Enterprise 活动而不是 GitHub.com 创建贡献日历，请设置此环境变量。例如：`https://github.mycompany.com/api/graphql` - 自 v0.8.0 起
-- `YEAR` : （可选）如需生成往年日历，请指定年份。此项主要用于命令行运行工具时指定。- 自 v0.8.0 起
-- `THEMES` : （可选）未设置 `SETTING_JSON` 时要生成的内置主题列表，以逗号分隔，例如 `green-animate,gitblock`。可用：`green`、`green-animate`、`season`、`season-animate`、`south-season`、`south-season-animate`、`blue`、`blue-animate`、`rainbow`、`rainbow-animate`、`gitblock`、`gitblock-animate`。默认生成全部。所有主题都会自动适应查看者的深色模式。
-- `EXTERNAL_SOURCES` : （可选）其他代码托管平台的贡献数据源 JSON 数组，以各自的颜色堆叠在 GitHub 柱体之上。每项需要 `name`（图例标签）、`type`（GitLab 实例为 `gitlab`，Codeberg 等 Forgejo/Gitea 实例为 `forgejo`）、`url`（实例的基础 URL）和 `user`；`color` 和 `darkColor`（`#RRGGBB`，后者用于深色模式）为可选。请参见下方的[外部来源](#外部来源)。
+| 变量 | 是否必需 | 说明 |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | 必需 | 访问令牌 |
+| `USERNAME` | 必需 | 目标用户名（或通过参数指定）。 |
+| `MAX_REPOS` | 可选 | 最大仓库数，默认 100 - 自 v0.2.0 起 |
+| `SETTING_JSON` | 可选 | 设置 json 文件路径。详情请参见仓库中的 `sample-settings/*.json` 和 `src/type.ts`。- 自 v0.6.0 起 |
+| `GITHUB_ENDPOINT` | 可选 | Github GraphQL 端点。例如，如果您希望基于公司 GitHub Enterprise 活动而不是 GitHub.com 创建贡献日历，请设置此环境变量。例如：`https://github.mycompany.com/api/graphql` - 自 v0.8.0 起 |
+| `YEAR` | 可选 | 如需生成往年日历，请指定年份。此项主要用于命令行运行工具时指定。- 自 v0.8.0 起 |
+| `THEMES` | 可选 | 未设置 `SETTING_JSON` 时要生成的内置主题列表，以逗号分隔，例如 `green-animate,gitblock`。可用：`green`、`green-animate`、`season`、`season-animate`、`south-season`、`south-season-animate`、`blue`、`blue-animate`、`rainbow`、`rainbow-animate`、`gitblock`、`gitblock-animate`。默认生成全部。所有主题都会自动适应查看者的深色模式。 |
+| `EXTERNAL_SOURCES` | 可选 | 其他代码托管平台的贡献数据源 JSON 数组，以各自的颜色堆叠在 GitHub 柱体之上。每项需要 `name`（图例标签）、`type`（GitLab 实例为 `gitlab`，Codeberg 等 Forgejo/Gitea 实例为 `forgejo`）、`url`（实例的基础 URL）和 `user`；`color` 和 `darkColor`（`#RRGGBB`，后者用于深色模式）为可选。请参见下方的[外部来源](#外部来源)。 |
 
 #### 关于 `GITHUB_TOKEN`
 

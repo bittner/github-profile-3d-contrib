@@ -97,14 +97,16 @@ jobs:
 
 範例中指定了 `GITHUB_TOKEN`、`USERNAME` 和 `EXTERNAL_SOURCES`，但您可指定以下環境變數：
 
-- `GITHUB_TOKEN`：（必填）存取權杖
-- `USERNAME`：（必填）目標使用者名稱（或以參數指定）。
-- `MAX_REPOS`：（選填）最大倉庫數，預設 100 - 自 v0.2.0 起
-- `SETTING_JSON`：（選填）設定 json 檔案路徑。詳見 `sample-settings/*.json` 及 `src/type.ts`。- 自 v0.6.0 起
-- `GITHUB_ENDPOINT`：（選填）Github GraphQL 端點。例如，若要根據公司 GitHub Enterprise 活動建立貢獻日曆，請設定此環境變數。例如：`https://github.mycompany.com/api/graphql` - 自 v0.8.0 起
-- `YEAR`：（選填）指定年份以產生過去的日曆。僅限命令列執行時指定。- 自 v0.8.0 起
-- `THEMES`：（選填）未設定 `SETTING_JSON` 時要產生的內建主題清單，以逗號分隔，例如 `green-animate,gitblock`。可用：`green`、`green-animate`、`season`、`season-animate`、`south-season`、`south-season-animate`、`blue`、`blue-animate`、`rainbow`、`rainbow-animate`、`gitblock`、`gitblock-animate`。預設產生全部。所有主題都會自動配合檢視者的深色模式。
-- `EXTERNAL_SOURCES`：（選填）其他程式碼託管平台的貢獻資料來源 JSON 陣列，以各自的顏色堆疊在 GitHub 柱體之上。每項需要 `name`（圖例標籤）、`type`（GitLab 執行個體為 `gitlab`，Codeberg 等 Forgejo/Gitea 執行個體為 `forgejo`）、`url`（執行個體的基底 URL）和 `user`；`color` 和 `darkColor`（`#RRGGBB`，後者用於深色模式）為選填。請參見下方的[外部來源](#外部來源)。
+| 變數 | 是否必填 | 說明 |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | 必填 | 存取權杖 |
+| `USERNAME` | 必填 | 目標使用者名稱（或以參數指定）。 |
+| `MAX_REPOS` | 選填 | 最大倉庫數，預設 100 - 自 v0.2.0 起 |
+| `SETTING_JSON` | 選填 | 設定 json 檔案路徑。詳見 `sample-settings/*.json` 及 `src/type.ts`。- 自 v0.6.0 起 |
+| `GITHUB_ENDPOINT` | 選填 | Github GraphQL 端點。例如，若要根據公司 GitHub Enterprise 活動建立貢獻日曆，請設定此環境變數。例如：`https://github.mycompany.com/api/graphql` - 自 v0.8.0 起 |
+| `YEAR` | 選填 | 指定年份以產生過去的日曆。僅限命令列執行時指定。- 自 v0.8.0 起 |
+| `THEMES` | 選填 | 未設定 `SETTING_JSON` 時要產生的內建主題清單，以逗號分隔，例如 `green-animate,gitblock`。可用：`green`、`green-animate`、`season`、`season-animate`、`south-season`、`south-season-animate`、`blue`、`blue-animate`、`rainbow`、`rainbow-animate`、`gitblock`、`gitblock-animate`。預設產生全部。所有主題都會自動配合檢視者的深色模式。 |
+| `EXTERNAL_SOURCES` | 選填 | 其他程式碼託管平台的貢獻資料來源 JSON 陣列，以各自的顏色堆疊在 GitHub 柱體之上。每項需要 `name`（圖例標籤）、`type`（GitLab 執行個體為 `gitlab`，Codeberg 等 Forgejo/Gitea 執行個體為 `forgejo`）、`url`（執行個體的基底 URL）和 `user`；`color` 和 `darkColor`（`#RRGGBB`，後者用於深色模式）為選填。請參見下方的[外部來源](#外部來源)。 |
 
 #### 關於 `GITHUB_TOKEN`
 

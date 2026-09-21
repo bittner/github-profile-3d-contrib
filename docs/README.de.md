@@ -97,14 +97,16 @@ Dadurch wird der Workflow zu Ihrem Repository hinzugefügt.
 
 Im Beispiel werden `GITHUB_TOKEN`, `USERNAME` und `EXTERNAL_SOURCES` als Umgebungsvariablen angegeben, aber Sie können die folgenden Variablen angeben:
 
-- `GITHUB_TOKEN` : (erforderlich) Zugriffstoken
-- `USERNAME` : (erforderlich) Ziel-Benutzername (oder als Argument angeben).
-- `MAX_REPOS` : (optional) maximale Anzahl von Repositories, Standard 100 – seit Version 0.2.0
-- `SETTING_JSON` : (optional) Pfad zur Einstellungs-JSON-Datei. Siehe `sample-settings/*.json` und `src/type.ts` im Repository `bittner/github-profile-3d-contrib` für Details. – seit Version 0.6.0
-- `GITHUB_ENDPOINT` : (optional) Github GraphQL-Endpunkt. Wenn Sie z. B. einen Beitragskalender basierend auf der GitHub Enterprise-Aktivität Ihres Unternehmens statt GitHub.com erstellen möchten, setzen Sie diese Umgebungsvariable. z. B. `https://github.mycompany.com/api/graphql` – seit Version 0.8.0
-- `YEAR` : (optional) Für vergangene Kalender geben Sie das Jahr an. Dies ist für die Ausführung des Tools über die Kommandozeile gedacht. – seit Version 0.8.0
-- `THEMES` : (optional) kommagetrennte Liste der eingebauten Themes, die erzeugt werden, wenn kein `SETTING_JSON` gesetzt ist, z. B. `green-animate,gitblock`. Verfügbar: `green`, `green-animate`, `season`, `season-animate`, `south-season`, `south-season-animate`, `blue`, `blue-animate`, `rainbow`, `rainbow-animate`, `gitblock`, `gitblock-animate`. Standardmäßig alle. Jedes Theme passt sich automatisch dem Dark Mode des Betrachters an.
-- `EXTERNAL_SOURCES` : (optional) JSON-Array von Beitrags-Feeds anderer Forges, die in eigenen Farben auf die GitHub-Balken gestapelt werden. Jeder Eintrag benötigt `name` (Beschriftung in der Legende), `type` (`gitlab` für GitLab-Instanzen, `forgejo` für Forgejo/Gitea-Instanzen wie Codeberg), `url` (Basis-URL der Instanz) und `user`; `color` und `darkColor` (`#RRGGBB`, letzteres für den Dark Mode) sind optional. Siehe [Externe Quellen](#externe-quellen) unten.
+| Variable | Erforderlich | Beschreibung |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | erforderlich | Zugriffstoken |
+| `USERNAME` | erforderlich | Ziel-Benutzername (oder als Argument angeben). |
+| `MAX_REPOS` | optional | maximale Anzahl von Repositories, Standard 100 – seit Version 0.2.0 |
+| `SETTING_JSON` | optional | Pfad zur Einstellungs-JSON-Datei. Siehe `sample-settings/*.json` und `src/type.ts` im Repository `bittner/github-profile-3d-contrib` für Details. – seit Version 0.6.0 |
+| `GITHUB_ENDPOINT` | optional | Github GraphQL-Endpunkt. Wenn Sie z. B. einen Beitragskalender basierend auf der GitHub Enterprise-Aktivität Ihres Unternehmens statt GitHub.com erstellen möchten, setzen Sie diese Umgebungsvariable. z. B. `https://github.mycompany.com/api/graphql` – seit Version 0.8.0 |
+| `YEAR` | optional | Für vergangene Kalender geben Sie das Jahr an. Dies ist für die Ausführung des Tools über die Kommandozeile gedacht. – seit Version 0.8.0 |
+| `THEMES` | optional | kommagetrennte Liste der eingebauten Themes, die erzeugt werden, wenn kein `SETTING_JSON` gesetzt ist, z. B. `green-animate,gitblock`. Verfügbar: `green`, `green-animate`, `season`, `season-animate`, `south-season`, `south-season-animate`, `blue`, `blue-animate`, `rainbow`, `rainbow-animate`, `gitblock`, `gitblock-animate`. Standardmäßig alle. Jedes Theme passt sich automatisch dem Dark Mode des Betrachters an. |
+| `EXTERNAL_SOURCES` | optional | JSON-Array von Beitrags-Feeds anderer Forges, die in eigenen Farben auf die GitHub-Balken gestapelt werden. Jeder Eintrag benötigt `name` (Beschriftung in der Legende), `type` (`gitlab` für GitLab-Instanzen, `forgejo` für Forgejo/Gitea-Instanzen wie Codeberg), `url` (Basis-URL der Instanz) und `user`; `color` und `darkColor` (`#RRGGBB`, letzteres für den Dark Mode) sind optional. Siehe [Externe Quellen](#externe-quellen) unten. |
 
 #### Über `GITHUB_TOKEN`
 

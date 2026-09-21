@@ -97,14 +97,16 @@ Cela ajoutera le workflow à votre dépôt.
 
 Dans l'exemple, `GITHUB_TOKEN`, `USERNAME` et `EXTERNAL_SOURCES` sont spécifiées comme variables d'environnement, mais vous pouvez spécifier les variables suivantes :
 
-- `GITHUB_TOKEN` : (obligatoire) jeton d'accès
-- `USERNAME` : (obligatoire) nom d'utilisateur cible (ou à spécifier en argument).
-- `MAX_REPOS` : (optionnel) nombre max de dépôts, par défaut 100 - depuis la version 0.2.0
-- `SETTING_JSON` : (optionnel) chemin du fichier json de configuration. Voir `sample-settings/*.json` et `src/type.ts` dans le dépôt `bittner/github-profile-3d-contrib` pour plus de détails. - depuis la version 0.6.0
-- `GITHUB_ENDPOINT` : (optionnel) endpoint GraphQL de Github. Par exemple, pour créer un calendrier de contributions basé sur l'activité GitHub Enterprise de votre entreprise au lieu de GitHub.com, définissez cette variable d'environnement. ex. `https://github.mycompany.com/api/graphql` - depuis la version 0.8.0
-- `YEAR` : (optionnel) Pour les calendriers passés, spécifiez l'année. Ceci est destiné à être spécifié lors de l'exécution de l'outil en ligne de commande. - depuis la version 0.8.0
-- `THEMES` : (optionnel) liste séparée par des virgules des thèmes intégrés à générer lorsque `SETTING_JSON` n'est pas défini, p. ex. `green-animate,gitblock`. Disponibles : `green`, `green-animate`, `season`, `season-animate`, `south-season`, `south-season-animate`, `blue`, `blue-animate`, `rainbow`, `rainbow-animate`, `gitblock`, `gitblock-animate`. Tous par défaut. Chaque thème s'adapte automatiquement au mode sombre du lecteur.
-- `EXTERNAL_SOURCES` : (optionnel) tableau JSON de flux de contributions d'autres forges, empilés sur les barres GitHub dans leurs propres couleurs. Chaque entrée nécessite `name` (libellé de la légende), `type` (`gitlab` pour les instances GitLab, `forgejo` pour les instances Forgejo/Gitea comme Codeberg), `url` (URL de base de l'instance) et `user` ; `color` et `darkColor` (`#RRGGBB`, ce dernier utilisé en mode sombre) sont optionnels. Voir [Sources externes](#sources-externes) ci-dessous.
+| Variable | Obligatoire | Description |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | obligatoire | jeton d'accès |
+| `USERNAME` | obligatoire | nom d'utilisateur cible (ou à spécifier en argument). |
+| `MAX_REPOS` | optionnel | nombre max de dépôts, par défaut 100 - depuis la version 0.2.0 |
+| `SETTING_JSON` | optionnel | chemin du fichier json de configuration. Voir `sample-settings/*.json` et `src/type.ts` dans le dépôt `bittner/github-profile-3d-contrib` pour plus de détails. - depuis la version 0.6.0 |
+| `GITHUB_ENDPOINT` | optionnel | endpoint GraphQL de Github. Par exemple, pour créer un calendrier de contributions basé sur l'activité GitHub Enterprise de votre entreprise au lieu de GitHub.com, définissez cette variable d'environnement. ex. `https://github.mycompany.com/api/graphql` - depuis la version 0.8.0 |
+| `YEAR` | optionnel | Pour les calendriers passés, spécifiez l'année. Ceci est destiné à être spécifié lors de l'exécution de l'outil en ligne de commande. - depuis la version 0.8.0 |
+| `THEMES` | optionnel | liste séparée par des virgules des thèmes intégrés à générer lorsque `SETTING_JSON` n'est pas défini, p. ex. `green-animate,gitblock`. Disponibles : `green`, `green-animate`, `season`, `season-animate`, `south-season`, `south-season-animate`, `blue`, `blue-animate`, `rainbow`, `rainbow-animate`, `gitblock`, `gitblock-animate`. Tous par défaut. Chaque thème s'adapte automatiquement au mode sombre du lecteur. |
+| `EXTERNAL_SOURCES` | optionnel | tableau JSON de flux de contributions d'autres forges, empilés sur les barres GitHub dans leurs propres couleurs. Chaque entrée nécessite `name` (libellé de la légende), `type` (`gitlab` pour les instances GitLab, `forgejo` pour les instances Forgejo/Gitea comme Codeberg), `url` (URL de base de l'instance) et `user` ; `color` et `darkColor` (`#RRGGBB`, ce dernier utilisé en mode sombre) sont optionnels. Voir [Sources externes](#sources-externes) ci-dessous. |
 
 #### À propos de `GITHUB_TOKEN`
 
