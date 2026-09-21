@@ -11,53 +11,26 @@ export interface Theme {
 const green = (isHalloween: boolean): type.Settings =>
     isHalloween ? template.HalloweenSettings : template.NormalSettings;
 
-/** Built-in themes, generated when no `SETTING_JSON` is given. */
-export const THEMES: ReadonlyArray<Theme> = [
-    { name: 'green-animate', settings: green, animate: true },
-    { name: 'green', settings: green, animate: false },
+const BASE_THEMES: ReadonlyArray<
+    [string, (isHalloween: boolean) => type.Settings]
+> = [
+    ['green', green],
     // Northern hemisphere
-    {
-        name: 'season-animate',
-        settings: () => template.NorthSeasonSettings,
-        animate: true,
-    },
-    {
-        name: 'season',
-        settings: () => template.NorthSeasonSettings,
-        animate: false,
-    },
+    ['season', () => template.NorthSeasonSettings],
     // Southern hemisphere
-    {
-        name: 'south-season-animate',
-        settings: () => template.SouthSeasonSettings,
-        animate: true,
-    },
-    {
-        name: 'south-season',
-        settings: () => template.SouthSeasonSettings,
-        animate: false,
-    },
-    {
-        name: 'night-view',
-        settings: () => template.NightViewSettings,
-        animate: true,
-    },
-    {
-        name: 'night-green',
-        settings: () => template.NightGreenSettings,
-        animate: true,
-    },
-    {
-        name: 'night-rainbow',
-        settings: () => template.NightRainbowSettings,
-        animate: true,
-    },
-    {
-        name: 'gitblock',
-        settings: () => template.GitBlockSettings,
-        animate: true,
-    },
+    ['south-season', () => template.SouthSeasonSettings],
+    ['blue', () => template.BlueSettings],
+    ['rainbow', () => template.RainbowSettings],
+    ['gitblock', () => template.GitBlockSettings],
 ];
+
+/** Built-in themes, generated when no `SETTING_JSON` is given. */
+export const THEMES: ReadonlyArray<Theme> = BASE_THEMES.flatMap(
+    ([name, settings]) => [
+        { name, settings, animate: false },
+        { name: `${name}-animate`, settings, animate: true },
+    ],
+);
 
 /** Select themes by the comma-separated `THEMES` variable; all by default. */
 export const parseThemes = (value: string | undefined): Array<Theme> => {

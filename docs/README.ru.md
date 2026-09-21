@@ -1,6 +1,6 @@
 # Profile 3D Contrib
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock-animate.svg)
 
 <!-- Порядок кодов языков (кроме английского) -->
 [English (en)](../README.md) |
@@ -103,7 +103,7 @@ jobs:
 - `SETTING_JSON` : (опционально) путь к файлу настроек json. См. `sample-settings/*.json` и `src/type.ts` в репозитории `bittner/github-profile-3d-contrib` для подробностей. - начиная с версии 0.6.0
 - `GITHUB_ENDPOINT` : (опционально) конечная точка Github GraphQL. Например, если вы хотите создать календарь вкладов на основе активности вашей корпоративной GitHub Enterprise, установите эту переменную окружения. Например: `https://github.mycompany.com/api/graphql` - начиная с версии 0.8.0
 - `YEAR` : (опционально) Для календарей прошлых лет укажите год. Это предназначено для использования при запуске инструмента из командной строки. - начиная с версии 0.8.0
-- `THEMES` : (опционально) список встроенных тем через запятую, которые генерируются, если `SETTING_JSON` не задан, например `green-animate,gitblock`. Доступны: `green-animate`, `green`, `season-animate`, `season`, `south-season-animate`, `south-season`, `night-view`, `night-green`, `night-rainbow`, `gitblock`. По умолчанию все. Темы `green` и `green-animate` автоматически подстраиваются под темный режим зрителя (как пример `green-dual` исходного проекта).
+- `THEMES` : (опционально) список встроенных тем через запятую, которые генерируются, если `SETTING_JSON` не задан, например `green-animate,gitblock`. Доступны: `green`, `green-animate`, `season`, `season-animate`, `south-season`, `south-season-animate`, `blue`, `blue-animate`, `rainbow`, `rainbow-animate`, `gitblock`, `gitblock-animate`. По умолчанию все. Все темы автоматически подстраиваются под темный режим зрителя.
 - `EXTERNAL_SOURCES` : (опционально) JSON-массив лент вкладов с других форжей, складываемых поверх столбцов GitHub в собственных цветах. Каждому элементу нужны `name` (подпись в легенде), `type` (`gitlab` для инстансов GitLab, `forgejo` для инстансов Forgejo/Gitea, таких как Codeberg), `url` (базовый URL инстанса) и `user`; `color` и `darkColor` (`#RRGGBB`, последний используется в темном режиме) необязательны. См. [Внешние источники](#внешние-источники) ниже.
 
 #### О `GITHUB_TOKEN`
@@ -155,16 +155,18 @@ on:
 
 Изображения профиля генерируются по следующим путям:
 
-- `profile-3d-contrib/profile-green-animate.svg`
 - `profile-3d-contrib/profile-green.svg`
-- `profile-3d-contrib/profile-season-animate.svg`
+- `profile-3d-contrib/profile-green-animate.svg`
 - `profile-3d-contrib/profile-season.svg`
-- `profile-3d-contrib/profile-south-season-animate.svg`
+- `profile-3d-contrib/profile-season-animate.svg`
 - `profile-3d-contrib/profile-south-season.svg`
-- `profile-3d-contrib/profile-night-view.svg`
-- `profile-3d-contrib/profile-night-green.svg`
-- `profile-3d-contrib/profile-night-rainbow.svg`
+- `profile-3d-contrib/profile-south-season-animate.svg`
+- `profile-3d-contrib/profile-blue.svg`
+- `profile-3d-contrib/profile-blue-animate.svg`
+- `profile-3d-contrib/profile-rainbow.svg`
+- `profile-3d-contrib/profile-rainbow-animate.svg`
 - `profile-3d-contrib/profile-gitblock.svg`
+- `profile-3d-contrib/profile-gitblock-animate.svg`
 
 Если вы укажете переменную окружения `SETTING_JSON` без свойства `fileName` в json-файле, будет сгенерировано следующее изображение:
 
@@ -184,17 +186,13 @@ on:
 
 ![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
-Пример: ночная версия
+Пример: синяя версия
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-blue-animate.svg)
 
-Пример: ночная зеленая версия
+Пример: радужная версия
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
-
-Пример: ночная радужная версия
-
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-rainbow-animate.svg)
 
 Пример: версия git block
 

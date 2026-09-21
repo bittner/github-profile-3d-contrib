@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-* The built-in `green` and `green-animate` themes now include a dark-mode colour scheme, switching automatically with the viewer's preference.
+* Consolidated the built-in themes: every theme now has a light and a dark colour scheme, switching automatically with the viewer's preference, and comes as a plain and an `-animate` variant. `night-view` became `blue` and `night-rainbow` became `rainbow`, each keeping its former look as the dark scheme; `night-green` was dropped, being the dark scheme of `green`.
 * Fixed the `build` npm script, which pointed `ncc` at a path `tsc` no longer emits.
 
 ## [0.9.3] - 2026-06-15

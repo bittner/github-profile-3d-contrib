@@ -1,6 +1,6 @@
 # Profile 3D Contrib
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock-animate.svg)
 
 <!-- 语言代码顺序（英语除外） -->
 [English (en)](../README.md) |
@@ -103,7 +103,7 @@ jobs:
 - `SETTING_JSON` : （可选）设置 json 文件路径。详情请参见仓库中的 `sample-settings/*.json` 和 `src/type.ts`。- 自 v0.6.0 起
 - `GITHUB_ENDPOINT` : （可选）Github GraphQL 端点。例如，如果您希望基于公司 GitHub Enterprise 活动而不是 GitHub.com 创建贡献日历，请设置此环境变量。例如：`https://github.mycompany.com/api/graphql` - 自 v0.8.0 起
 - `YEAR` : （可选）如需生成往年日历，请指定年份。此项主要用于命令行运行工具时指定。- 自 v0.8.0 起
-- `THEMES` : （可选）未设置 `SETTING_JSON` 时要生成的内置主题列表，以逗号分隔，例如 `green-animate,gitblock`。可用：`green-animate`、`green`、`season-animate`、`season`、`south-season-animate`、`south-season`、`night-view`、`night-green`、`night-rainbow`、`gitblock`。默认生成全部。`green` 和 `green-animate` 主题会自动适应查看者的深色模式（与原项目的 `green-dual` 示例相同）。
+- `THEMES` : （可选）未设置 `SETTING_JSON` 时要生成的内置主题列表，以逗号分隔，例如 `green-animate,gitblock`。可用：`green`、`green-animate`、`season`、`season-animate`、`south-season`、`south-season-animate`、`blue`、`blue-animate`、`rainbow`、`rainbow-animate`、`gitblock`、`gitblock-animate`。默认生成全部。所有主题都会自动适应查看者的深色模式。
 - `EXTERNAL_SOURCES` : （可选）其他代码托管平台的贡献数据源 JSON 数组，以各自的颜色堆叠在 GitHub 柱体之上。每项需要 `name`（图例标签）、`type`（GitLab 实例为 `gitlab`，Codeberg 等 Forgejo/Gitea 实例为 `forgejo`）、`url`（实例的基础 URL）和 `user`；`color` 和 `darkColor`（`#RRGGBB`，后者用于深色模式）为可选。请参见下方的[外部来源](#外部来源)。
 
 #### 关于 `GITHUB_TOKEN`
@@ -155,16 +155,18 @@ on:
 
 个人资料图片会生成在以下路径：
 
-- `profile-3d-contrib/profile-green-animate.svg`
 - `profile-3d-contrib/profile-green.svg`
-- `profile-3d-contrib/profile-season-animate.svg`
+- `profile-3d-contrib/profile-green-animate.svg`
 - `profile-3d-contrib/profile-season.svg`
-- `profile-3d-contrib/profile-south-season-animate.svg`
+- `profile-3d-contrib/profile-season-animate.svg`
 - `profile-3d-contrib/profile-south-season.svg`
-- `profile-3d-contrib/profile-night-view.svg`
-- `profile-3d-contrib/profile-night-green.svg`
-- `profile-3d-contrib/profile-night-rainbow.svg`
+- `profile-3d-contrib/profile-south-season-animate.svg`
+- `profile-3d-contrib/profile-blue.svg`
+- `profile-3d-contrib/profile-blue-animate.svg`
+- `profile-3d-contrib/profile-rainbow.svg`
+- `profile-3d-contrib/profile-rainbow-animate.svg`
 - `profile-3d-contrib/profile-gitblock.svg`
+- `profile-3d-contrib/profile-gitblock-animate.svg`
 
 如果您指定了 `SETTING_JSON` 环境变量且 json 文件中未包含 `fileName` 属性，则会生成以下图片：
 
@@ -184,17 +186,13 @@ on:
 
 ![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
-示例：夜景版本
+示例：蓝色版本
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-blue-animate.svg)
 
-示例：夜间绿色版本
+示例：彩虹版本
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
-
-示例：夜间彩虹版本
-
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-rainbow-animate.svg)
 
 示例：git block 版本
 

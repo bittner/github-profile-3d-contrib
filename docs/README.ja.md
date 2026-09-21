@@ -1,6 +1,6 @@
 # Profile 3D Contrib
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock-animate.svg)
 
 <!-- 言語コードの順序（英語を除く） -->
 [English (en)](../README.md) |
@@ -100,7 +100,7 @@ jobs:
 - `SETTING_JSON` : (任意) 設定JSONファイルパス。詳細は `bittner/github-profile-3d-contrib` リポジトリの `sample-settings/*.json` や `src/type.ts` を参照してください - バージョン 0.6.0 で追加
 - `GITHUB_ENDPOINT` : (任意) Github GraphQL エンドポイント。たとえば、GitHub.comではなく、会社のGitHub Enterpriseのアクティビティに基づいてコントリビュートカレンダーを作成したい場合は、この環境変数を設定します。例： `https://github.mycompany.com/api/graphql` - バージョン 0.8.0 で追加
 - `YEAR` : (任意) 過去のカレンダーを出力する場合、年を指定。特にコマンドラインからツールを実行するときを想定しています。 - バージョン 0.8.0 で追加
-- `THEMES` : (任意) `SETTING_JSON` を指定しない場合に生成する組み込みテーマのカンマ区切りリスト。例: `green-animate,gitblock`。指定可能: `green-animate`、`green`、`season-animate`、`season`、`south-season-animate`、`south-season`、`night-view`、`night-green`、`night-rainbow`、`gitblock`。既定ではすべて生成します。`green` と `green-animate` は閲覧者のダークモードに自動的に適応します（元プロジェクトの `green-dual` サンプルと同様）。
+- `THEMES` : (任意) `SETTING_JSON` を指定しない場合に生成する組み込みテーマのカンマ区切りリスト。例: `green-animate,gitblock`。指定可能: `green`、`green-animate`、`season`、`season-animate`、`south-season`、`south-season-animate`、`blue`、`blue-animate`、`rainbow`、`rainbow-animate`、`gitblock`、`gitblock-animate`。既定ではすべて生成します。すべてのテーマは閲覧者のダークモードに自動的に適応します。
 - `EXTERNAL_SOURCES` : (任意) 他のフォージのコントリビューションフィードを JSON 配列で指定します。GitHub のバーの上にそれぞれの色で積み上げて描画されます。各要素には `name`（凡例のラベル）、`type`（GitLab インスタンスは `gitlab`、Codeberg などの Forgejo/Gitea インスタンスは `forgejo`）、`url`（インスタンスのベース URL）、`user` が必要です。`color` と `darkColor`（`#RRGGBB`、後者はダークモード用）は任意です。下記の [外部ソース](#外部ソース) を参照してください。
 
 #### `GITHUB_TOKEN` について
@@ -152,16 +152,18 @@ on:
 
 プロフィール画像は以下のパスで生成されます。
 
-- `profile-3d-contrib/profile-green-animate.svg`
 - `profile-3d-contrib/profile-green.svg`
-- `profile-3d-contrib/profile-season-animate.svg`
+- `profile-3d-contrib/profile-green-animate.svg`
 - `profile-3d-contrib/profile-season.svg`
-- `profile-3d-contrib/profile-south-season-animate.svg`
+- `profile-3d-contrib/profile-season-animate.svg`
 - `profile-3d-contrib/profile-south-season.svg`
-- `profile-3d-contrib/profile-night-view.svg`
-- `profile-3d-contrib/profile-night-green.svg`
-- `profile-3d-contrib/profile-night-rainbow.svg`
+- `profile-3d-contrib/profile-south-season-animate.svg`
+- `profile-3d-contrib/profile-blue.svg`
+- `profile-3d-contrib/profile-blue-animate.svg`
+- `profile-3d-contrib/profile-rainbow.svg`
+- `profile-3d-contrib/profile-rainbow-animate.svg`
 - `profile-3d-contrib/profile-gitblock.svg`
+- `profile-3d-contrib/profile-gitblock-animate.svg`
 
 あるいは、`SETTING_JSON` を指定した場合は、以下のファイルが生成されます。
 
@@ -181,17 +183,13 @@ on:
 
 ![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
-例：night view バージョン
+例: ブルー版
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-blue-animate.svg)
 
-例：night green バージョン
+例: レインボー版
 
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
-
-例：night rainbow バージョン
-
-![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-rainbow-animate.svg)
 
 例：git block バージョン
 

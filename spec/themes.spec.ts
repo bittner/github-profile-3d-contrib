@@ -2,6 +2,20 @@ import * as themes from '../src/themes';
 
 describe('parseThemes', () => {
     it('selects every theme by default', () => {
+        expect(themes.THEMES.map((t) => t.name)).toEqual([
+            'green',
+            'green-animate',
+            'season',
+            'season-animate',
+            'south-season',
+            'south-season-animate',
+            'blue',
+            'blue-animate',
+            'rainbow',
+            'rainbow-animate',
+            'gitblock',
+            'gitblock-animate',
+        ]);
         expect(themes.parseThemes(undefined)).toEqual([...themes.THEMES]);
         expect(themes.parseThemes(' , ')).toEqual([...themes.THEMES]);
     });

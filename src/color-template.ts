@@ -16,16 +16,11 @@ import southSeasonSettings from './settings/SouthSeasonSettings.json';
 export const SouthSeasonSettings =
     southSeasonSettings as type.SeasonColorSettings;
 
-import nightViewSettings from './settings/NightViewSettings.json';
-export const NightViewSettings = nightViewSettings as type.NormalColorSettings;
+import blueSettings from './settings/BlueSettings.json';
+export const BlueSettings = blueSettings as type.NormalColorSettings;
 
-import nightGreenSettings from './settings/NightGreenSettings.json';
-export const NightGreenSettings =
-    nightGreenSettings as type.NormalColorSettings;
-
-import nightRainbowSettings from './settings/NightRainbowSettings.json';
-export const NightRainbowSettings =
-    nightRainbowSettings as type.RainbowColorSettings;
+import rainbowSettings from './settings/RainbowSettings.json';
+export const RainbowSettings = rainbowSettings as type.RainbowColorSettings;
 
 import gitBlockSettings from './settings/GitBlockSettings.json';
 export const GitBlockSettings = gitBlockSettings as type.BitmapPatternSettings;

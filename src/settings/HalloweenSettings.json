@@ -5,5 +5,14 @@
   "strongColor": "#111133",
   "weakColor": "gray",
   "radarColor": "#47a042",
-  "contribColors": ["#efefef", "#ffed4a", "#ffc402", "#fe9400", "#fa6100"]
+  "contribColors": ["#efefef", "#ffed4a", "#ffc402", "#fe9400", "#fa6100"],
+  "darkMode": {
+    "type": "normal",
+    "backgroundColor": "#00000f",
+    "foregroundColor": "#eeeeff",
+    "strongColor": "rgb(255,200,55)",
+    "weakColor": "#aaaaaa",
+    "radarColor": "#47a042",
+    "contribColors": ["#444444", "#ffed4a", "#ffc402", "#fe9400", "#fa6100"]
+  }
 }

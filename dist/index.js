@@ -191,7 +191,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.GitBlockSettings = exports.NightRainbowSettings = exports.NightGreenSettings = exports.NightViewSettings = exports.SouthSeasonSettings = exports.NorthSeasonSettings = exports.HalloweenSettings = exports.NormalSettings = void 0;
+exports.GitBlockSettings = exports.RainbowSettings = exports.BlueSettings = exports.SouthSeasonSettings = exports.NorthSeasonSettings = exports.HalloweenSettings = exports.NormalSettings = void 0;
 const NormalSettings_json_1 = __importDefault(__nccwpck_require__(93096));
 exports.NormalSettings = NormalSettings_json_1.default;
 const HalloweenSettings_json_1 = __importDefault(__nccwpck_require__(25304));
@@ -202,12 +202,10 @@ exports.NorthSeasonSettings = NorthSeasonSettings_json_1.default;
 // Southern hemisphere
 const SouthSeasonSettings_json_1 = __importDefault(__nccwpck_require__(88435));
 exports.SouthSeasonSettings = SouthSeasonSettings_json_1.default;
-const NightViewSettings_json_1 = __importDefault(__nccwpck_require__(81812));
-exports.NightViewSettings = NightViewSettings_json_1.default;
-const NightGreenSettings_json_1 = __importDefault(__nccwpck_require__(26378));
-exports.NightGreenSettings = NightGreenSettings_json_1.default;
-const NightRainbowSettings_json_1 = __importDefault(__nccwpck_require__(50631));
-exports.NightRainbowSettings = NightRainbowSettings_json_1.default;
+const BlueSettings_json_1 = __importDefault(__nccwpck_require__(97091));
+exports.BlueSettings = BlueSettings_json_1.default;
+const RainbowSettings_json_1 = __importDefault(__nccwpck_require__(69585));
+exports.RainbowSettings = RainbowSettings_json_1.default;
 const GitBlockSettings_json_1 = __importDefault(__nccwpck_require__(1106));
 exports.GitBlockSettings = GitBlockSettings_json_1.default;
 //# sourceMappingURL=color-template.js.map
@@ -1585,53 +1583,21 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseThemes = exports.THEMES = void 0;
 const template = __importStar(__nccwpck_require__(38340));
 const green = (isHalloween) => isHalloween ? template.HalloweenSettings : template.NormalSettings;
-/** Built-in themes, generated when no `SETTING_JSON` is given. */
-exports.THEMES = [
-    { name: 'green-animate', settings: green, animate: true },
-    { name: 'green', settings: green, animate: false },
+const BASE_THEMES = [
+    ['green', green],
     // Northern hemisphere
-    {
-        name: 'season-animate',
-        settings: () => template.NorthSeasonSettings,
-        animate: true,
-    },
-    {
-        name: 'season',
-        settings: () => template.NorthSeasonSettings,
-        animate: false,
-    },
+    ['season', () => template.NorthSeasonSettings],
     // Southern hemisphere
-    {
-        name: 'south-season-animate',
-        settings: () => template.SouthSeasonSettings,
-        animate: true,
-    },
-    {
-        name: 'south-season',
-        settings: () => template.SouthSeasonSettings,
-        animate: false,
-    },
-    {
-        name: 'night-view',
-        settings: () => template.NightViewSettings,
-        animate: true,
-    },
-    {
-        name: 'night-green',
-        settings: () => template.NightGreenSettings,
-        animate: true,
-    },
-    {
-        name: 'night-rainbow',
-        settings: () => template.NightRainbowSettings,
-        animate: true,
-    },
-    {
-        name: 'gitblock',
-        settings: () => template.GitBlockSettings,
-        animate: true,
-    },
+    ['south-season', () => template.SouthSeasonSettings],
+    ['blue', () => template.BlueSettings],
+    ['rainbow', () => template.RainbowSettings],
+    ['gitblock', () => template.GitBlockSettings],
 ];
+/** Built-in themes, generated when no `SETTING_JSON` is given. */
+exports.THEMES = BASE_THEMES.flatMap(([name, settings]) => [
+    { name, settings, animate: false },
+    { name: `${name}-animate`, settings, animate: true },
+]);
 /** Select themes by the comma-separated `THEMES` variable; all by default. */
 const parseThemes = (value) => {
     const names = (value || '')
@@ -191248,11 +191214,19 @@ function defaultConstrain(transform, extent, translateExtent) {
 
 /***/ }),
 
+/***/ 97091:
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"type":"normal","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"rgb(25,120,220)","contribColors":["#efefef","rgb(160,200,250)","rgb(90,160,240)","rgb(40,120,220)","rgb(20,70,160)"],"darkMode":{"type":"normal","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"rgb(255,200,55)","contribColors":["rgb(25,60,130)","rgb(25,90,210)","rgb(25,120,220)","rgb(25,150,230)","rgb(25,165,240)"]}}');
+
+/***/ }),
+
 /***/ 1106:
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"type":"bitmap","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"#47a042","contribPatterns":[{"top":{"backgroundColor":"#f8f8f8","foregroundColor":"#aaaaaa","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(125, 52%, 50%)","foregroundColor":"hsl(125, 52%, 10%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(242, 100%, 65%)","foregroundColor":"hsl(242, 100%, 16%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(48, 100%, 50%)","foregroundColor":"hsl(48, 100%, 15%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(350, 100%, 50%)","foregroundColor":"hsl(350, 100%, 15%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}}]}');
+module.exports = /*#__PURE__*/JSON.parse('{"type":"bitmap","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"#47a042","contribPatterns":[{"top":{"backgroundColor":"#f8f8f8","foregroundColor":"#aaaaaa","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(125, 52%, 50%)","foregroundColor":"hsl(125, 52%, 10%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(242, 100%, 65%)","foregroundColor":"hsl(242, 100%, 16%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(48, 100%, 50%)","foregroundColor":"hsl(48, 100%, 15%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(350, 100%, 50%)","foregroundColor":"hsl(350, 100%, 15%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}}],"darkMode":{"type":"bitmap","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"#47a042","contribPatterns":[{"top":{"backgroundColor":"#3a3a3a","foregroundColor":"#6a6a6a","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(125, 52%, 50%)","foregroundColor":"hsl(125, 52%, 10%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(242, 100%, 65%)","foregroundColor":"hsl(242, 100%, 16%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(48, 100%, 50%)","foregroundColor":"hsl(48, 100%, 15%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}},{"top":{"backgroundColor":"hsl(350, 100%, 50%)","foregroundColor":"hsl(350, 100%, 15%)","width":32,"bitmap":["0x00000000","0x00000000","0x01c001c0","0x06300630","0x0a080a08","0x12081208","0x11041104","0x11841184","0x12c412c4","0x0d780d78","0x0aa80aa8","0x07500750","0x01e001e0","0x00000000","0x00000000","0x00000000"]},"left":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]},"right":{"width":32,"bitmap":["0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0x00000000","0xaaaaaaaa"]}}]}}');
 
 /***/ }),
 
@@ -191260,31 +191234,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"type":"bitmap","backgroundColor":"#f
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"type":"normal","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"#47a042","contribColors":["#efefef","#ffed4a","#ffc402","#fe9400","#fa6100"]}');
-
-/***/ }),
-
-/***/ 26378:
-/***/ ((module) => {
-
-"use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"type":"normal","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"#47a042","contribColors":["#444444","#1B7D28","#24A736","#2DD143","#57DA69"]}');
-
-/***/ }),
-
-/***/ 50631:
-/***/ ((module) => {
-
-"use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"type":"rainbow","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"rgb(255,200,55)","saturation":"50%","contribLightness":["20%","30%","35%","40%","50%"],"duration":"10s","hueRatio":-7}');
-
-/***/ }),
-
-/***/ 81812:
-/***/ ((module) => {
-
-"use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"type":"normal","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"rgb(255,200,55)","contribColors":["rgb(25,60,130)","rgb(25,90,210)","rgb(25,120,220)","rgb(25,150,230)","rgb(25,165,240)"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"type":"normal","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"#47a042","contribColors":["#efefef","#ffed4a","#ffc402","#fe9400","#fa6100"],"darkMode":{"type":"normal","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"#47a042","contribColors":["#444444","#ffed4a","#ffc402","#fe9400","#fa6100"]}}');
 
 /***/ }),
 
@@ -191300,7 +191250,15 @@ module.exports = /*#__PURE__*/JSON.parse('{"type":"normal","backgroundColor":"#f
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"type":"season","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"#47a042","contribColors1":["#efefef","#ffe7ff","#edaeda","#e492ca","#ba7aad"],"contribColors2":["#efefef","#d8e887","#8cc569","#47a042","#1d6a23"],"contribColors3":["#efefef","#ffed4a","#ffc402","#fe9400","#fa6100"],"contribColors4":["#efefef","#999999","#cccccc","#dddddd","#eeeeee"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"type":"season","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"#47a042","contribColors1":["#efefef","#ffe7ff","#edaeda","#e492ca","#ba7aad"],"contribColors2":["#efefef","#d8e887","#8cc569","#47a042","#1d6a23"],"contribColors3":["#efefef","#ffed4a","#ffc402","#fe9400","#fa6100"],"contribColors4":["#efefef","#999999","#cccccc","#dddddd","#eeeeee"],"darkMode":{"type":"season","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"#47a042","contribColors1":["#444444","#ffe7ff","#edaeda","#e492ca","#ba7aad"],"contribColors2":["#444444","#1B7D28","#24A736","#2DD143","#57DA69"],"contribColors3":["#444444","#ffed4a","#ffc402","#fe9400","#fa6100"],"contribColors4":["#444444","#999999","#cccccc","#dddddd","#eeeeee"]}}');
+
+/***/ }),
+
+/***/ 69585:
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"type":"rainbow","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"rgb(230,160,20)","saturation":"50%","contribLightness":["92%","70%","60%","50%","40%"],"duration":"10s","hueRatio":-7,"darkMode":{"type":"rainbow","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"rgb(255,200,55)","saturation":"50%","contribLightness":["20%","30%","35%","40%","50%"],"duration":"10s","hueRatio":-7}}');
 
 /***/ }),
 
@@ -191308,7 +191266,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"type":"season","backgroundColor":"#f
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"type":"season","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"#47a042","contribColors1":["#efefef","#ffed4a","#ffc402","#fe9400","#fa6100"],"contribColors2":["#efefef","#999999","#cccccc","#dddddd","#eeeeee"],"contribColors3":["#efefef","#ffe7ff","#edaeda","#e492ca","#ba7aad"],"contribColors4":["#efefef","#d8e887","#8cc569","#47a042","#1d6a23"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"type":"season","backgroundColor":"#ffffff","foregroundColor":"#00000f","strongColor":"#111133","weakColor":"gray","radarColor":"#47a042","contribColors1":["#efefef","#ffed4a","#ffc402","#fe9400","#fa6100"],"contribColors2":["#efefef","#999999","#cccccc","#dddddd","#eeeeee"],"contribColors3":["#efefef","#ffe7ff","#edaeda","#e492ca","#ba7aad"],"contribColors4":["#efefef","#d8e887","#8cc569","#47a042","#1d6a23"],"darkMode":{"type":"season","backgroundColor":"#00000f","foregroundColor":"#eeeeff","strongColor":"rgb(255,200,55)","weakColor":"#aaaaaa","radarColor":"#47a042","contribColors1":["#444444","#ffed4a","#ffc402","#fe9400","#fa6100"],"contribColors2":["#444444","#999999","#cccccc","#dddddd","#eeeeee"],"contribColors3":["#444444","#ffe7ff","#edaeda","#e492ca","#ba7aad"],"contribColors4":["#444444","#1B7D28","#24A736","#2DD143","#57DA69"]}}');
 
 /***/ }),
 
