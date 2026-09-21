@@ -1,6 +1,8 @@
-## Advanced example 1: automatic day/night switching + keeping output in other branch
+## Advanced example 1: different themes for light and dark mode + keeping output in other branch
 
-This alternative workflow generates two files, `day.svg` and `night.svg`, and pushes it to `output-3d-contrib` branch, keeping the main repo 'clean' from build artifacts.
+Plain light/dark switching needs no setup: every generated image already contains both colour schemes and follows the viewer's preference by itself. This example is for the case where you want a *different theme* per colour scheme, here the green theme by day and the rainbow theme by night. It generates two files, `day.svg` and `night.svg`, and pushes them to the `output-3d-contrib` branch, keeping the main repo 'clean' from build artifacts.
+
+The two settings must not contain a `darkMode` block: each file has to stay single-scheme, because the `<picture>` element in step 4 does the switching. An image that also switched internally would show the wrong scheme on dark pages.
 
 ### 1. Create special repository.
 
@@ -75,7 +77,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: generate-github-profile-3d-contrib
+    name: generate-profile-3d-contrib
     steps:
       - uses: actions/checkout@v7
       - uses: bittner/github-profile-3d-contrib@main
@@ -83,7 +85,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
           SETTING_JSON: conf/github-profile-3d-contrib.json
-          
+          EXTERNAL_SOURCES: >-
+            [
+              {"name": "GitLab", "type": "gitlab", "url": "https://gitlab.com", "user": "octocat", "color": "#fc6d26"},
+              {"name": "Codeberg", "type": "forgejo", "url": "https://codeberg.org", "user": "octocat", "color": "#2185d0"}
+            ]
+
       # push the content of <build_dir> to a branch
       # the content will be available at https://raw.githubusercontent.com/<github_user>/<repository>/<target_branch>/<file> , or as github page
       - name: push SVGs to the output-3d branch
