@@ -1,4 +1,4 @@
-# GitHub Profile 3D Contrib
+# Profile 3D Contrib
 
 ![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
@@ -46,7 +46,7 @@
 - `.github/workflows/profile-3d.yml`
 
 ```yaml:.github/workflows/profile-3d.yml
-name: GitHub-Profile-3D-Contrib
+name: Profile-3D-Contrib
 
 on:
   schedule: # 03:00 JST == 18:00 UTC
@@ -59,7 +59,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: generate-github-profile-3d-contrib
+    name: generate-profile-3d-contrib
     steps:
       - uses: actions/checkout@v5
       - uses: yoshi389111/github-profile-3d-contrib@latest
@@ -142,7 +142,7 @@ on:
 
 首次請手動執行此工作流程。
 
-- `Actions` -> `GitHub-Profile-3D-Contrib` -> `Run workflow`
+- `Actions` -> `Profile-3D-Contrib` -> `Run workflow`
 
 個人檔案圖片將產生於以下路徑：
 

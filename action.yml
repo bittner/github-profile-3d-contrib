@@ -1,5 +1,5 @@
-name: GitHub-Profile-3D-Contrib
-description: Generate profile 3D Contributions
+name: Profile-3D-Contrib
+description: Generate a 3D contribution calendar for your profile
 author: yoshi389111
 
 runs:

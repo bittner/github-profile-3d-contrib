@@ -1,7 +1,7 @@
 {
   "name": "github-profile-3d-contrib",
   "version": "0.9.3",
-  "description": "Generate profile 3D Contributions",
+  "description": "Generate a 3D contribution calendar for your profile",
   "main": "dist/index.js",
   "scripts": {
     "start": "node .",

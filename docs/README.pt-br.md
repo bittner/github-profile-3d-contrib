@@ -1,4 +1,4 @@
-# GitHub Profile 3D Contrib
+# Profile 3D Contrib
 
 ![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
@@ -39,7 +39,7 @@ Crie um arquivo de workflow como o exemplo abaixo:
 - `.github/workflows/profile-3d.yml`
 
 ```yaml
-name: GitHub-Profile-3D-Contrib
+name: Profile-3D-Contrib
 
 on:
   schedule: # 03:00 JST == 18:00 UTC
@@ -52,7 +52,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: generate-github-profile-3d-contrib
+    name: generate-profile-3d-contrib
     steps:
       - uses: actions/checkout@v5
       - uses: yoshi389111/github-profile-3d-contrib@latest
@@ -130,7 +130,7 @@ Você pode alterar para qualquer horário que quiser. Recomendamos agendar por v
 
 Na primeira vez, execute esse workflow manualmente.
 
-- `Actions` -> `GitHub-Profile-3D-Contrib` -> `Run workflow`
+- `Actions` -> `Profile-3D-Contrib` -> `Run workflow`
 
 As imagens de perfil são geradas nos seguintes caminhos:
 
