@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* Stack contributions from GitLab and Forgejo/Gitea instances (e.g. gitlab.com, Codeberg) on the GitHub bars, configured with the `EXTERNAL_SOURCES` environment variable, with per-source colours (`sourceColors`) and a legend (`sourceLegend`) in the settings JSON.
+* Select which built-in themes to generate with the `THEMES` environment variable.
+* Per-source `darkColor` in `EXTERNAL_SOURCES` for dark mode.
+
+### Changed
+
+* The built-in `green` and `green-animate` themes now include a dark-mode colour scheme, switching automatically with the viewer's preference.
+* Fixed the `build` npm script, which pointed `ncc` at a path `tsc` no longer emits.
+
 ## [0.9.3] - 2026-06-15
 
 ### Changed

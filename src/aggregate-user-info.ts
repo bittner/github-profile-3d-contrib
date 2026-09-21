@@ -1,4 +1,5 @@
 import * as client from './github-graphql';
+import * as external from './external-sources';
 import * as type from './type';
 
 const OTHER_COLOR = '#444444';
@@ -28,8 +29,23 @@ const compare = (num1: number, num2: number): number => {
     }
 };
 
+const externalContributionsOn = (
+    date: string,
+    externals: Array<external.ExternalContributions>,
+): Array<type.ExternalContribution> =>
+    externals
+        .map((ext, index) => ({
+            source: index,
+            contributionCount: ext.days.get(date) || 0,
+        }))
+        .filter((contrib) => contrib.contributionCount > 0);
+
+const sum = (values: Array<number>): number =>
+    values.reduce((num1, num2) => num1 + num2, 0);
+
 export const aggregateUserInfo = (
     response: client.ResponseType,
+    externals: Array<external.ExternalContributions> = [],
 ): type.UserInfo => {
     if (!response.data) {
         if (response.errors && response.errors.length) {
@@ -42,13 +58,27 @@ export const aggregateUserInfo = (
     const user = response.data.user;
     const calendar = user.contributionsCollection.contributionCalendar.weeks
         .flatMap((week) => week.contributionDays)
-        .map((week) => ({
-            contributionCount: week.contributionCount,
-            contributionLevel: toNumberContributionLevel(
-                week.contributionLevel,
-            ),
-            date: new Date(week.date),
-        }));
+        .map((day) => {
+            const externalContributions = externalContributionsOn(
+                day.date.substring(0, 10),
+                externals,
+            );
+            return {
+                contributionCount:
+                    day.contributionCount +
+                    sum(externalContributions.map((c) => c.contributionCount)),
+                contributionLevel: toNumberContributionLevel(
+                    day.contributionLevel,
+                ),
+                date: new Date(day.date),
+                externalContributions,
+            };
+        });
+    const externalTotal = sum(
+        calendar.flatMap((day) =>
+            day.externalContributions.map((c) => c.contributionCount),
+        ),
+    );
     const contributesLanguage: { [language: string]: type.LangInfo } = {};
     user.contributionsCollection.commitContributionsByRepository
         .filter((repo) => repo.repository.primaryLanguage)
@@ -82,10 +112,15 @@ export const aggregateUserInfo = (
         isHalloween:
             user.contributionsCollection.contributionCalendar.isHalloween,
         contributionCalendar: calendar,
+        externalSources: externals.map((ext, index) => ({
+            name: ext.source.name,
+            color: external.sourceColor(ext.source, index),
+            darkColor: external.sourceDarkColor(ext.source, index),
+        })),
         contributesLanguage: languages,
         totalContributions:
             user.contributionsCollection.contributionCalendar
-                .totalContributions,
+                .totalContributions + externalTotal,
         totalCommitContributions:
             user.contributionsCollection.totalCommitContributions,
         totalIssueContributions:

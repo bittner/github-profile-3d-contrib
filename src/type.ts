@@ -1,7 +1,36 @@
+export interface ExternalContribution {
+    /** index into UserInfo.externalSources */
+    source: number;
+    contributionCount: number;
+}
+
 export interface CalendarInfo {
+    /** total over GitHub and all external sources */
     contributionCount: number;
     contributionLevel: number;
     date: Date;
+    externalContributions: Array<ExternalContribution>;
+}
+
+export type ExternalSourceType = 'gitlab' | 'forgejo';
+
+export interface ExternalSource {
+    /** legend label, e.g. "gitlab.com" */
+    name: string;
+    type: ExternalSourceType;
+    /** base url of the instance, e.g. "https://gitlab.com" */
+    url: string;
+    user: string;
+    /** "#RRGGBB"; a palette colour is assigned if omitted */
+    color?: string;
+    /** "#RRGGBB" used in dark mode; defaults to `color` */
+    darkColor?: string;
+}
+
+export interface ExternalSourceInfo {
+    name: string;
+    color: string;
+    darkColor: string;
 }
 
 export interface LangInfo {
@@ -13,6 +42,7 @@ export interface LangInfo {
 export interface UserInfo {
     isHalloween: boolean;
     contributionCalendar: Array<CalendarInfo>;
+    externalSources: Array<ExternalSourceInfo>;
     contributesLanguage: Array<LangInfo>;
     totalContributions: number;
     totalCommitContributions: number;
@@ -69,6 +99,11 @@ export interface BaseSettings extends RadarContribSettings, PieLangSettings {
     growingAnimation?: boolean;
 
     fileName?: string;
+
+    /** colour overrides for external sources, keyed by source name */
+    sourceColors?: { [name: string]: string };
+    /** draw the legend naming GitHub and the external sources (default: true) */
+    sourceLegend?: boolean;
 
     l10n?: {
         commit: string;

@@ -1,7 +1,7 @@
 {
   "name": "github-profile-3d-contrib",
   "version": "0.9.3",
-  "description": "Generate a 3D contribution calendar for your profile",
+  "description": "Generate a 3D contribution calendar from GitHub, GitLab and Forgejo activity",
   "main": "dist/index.js",
   "scripts": {
     "start": "node .",
@@ -9,7 +9,7 @@
     "dev:watch": "ts-node-dev --respawn src/index.ts",
     "clean": "rimraf --glob \"dist/*\"",
     "tsc": "tsc",
-    "build": "npm-run-all clean tsc && ncc build dist0/index.js --license licenses.txt",
+    "build": "npm-run-all clean tsc && ncc build dist0/src/index.js --license licenses.txt",
     "check-types": "tsc --noEmit",
     "eslint": "eslint src/**/*.ts",
     "eslint:fix": "eslint src/**/*.ts --fix",

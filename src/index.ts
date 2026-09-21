@@ -1,9 +1,10 @@
 import * as aggregate from './aggregate-user-info';
-import * as template from './color-template';
+import * as themes from './themes';
 import * as create from './create-svg';
 import * as f from './file-writer';
 import * as r from './settings-reader';
 import * as client from './github-graphql';
+import * as external from './external-sources';
 
 export const main = async (): Promise<void> => {
     try {
@@ -35,13 +36,20 @@ export const main = async (): Promise<void> => {
             return;
         }
 
+        const sources = external.parseExternalSources(
+            process.env.EXTERNAL_SOURCES,
+        );
+
         const response = await client.fetchData(
             token,
             userName,
             maxRepos,
             year,
         );
-        const userInfo = aggregate.aggregateUserInfo(response);
+        const externals = await external.fetchExternalContributions(sources);
+        const userInfo = aggregate.aggregateUserInfo(response, externals);
+
+        const selected = themes.parseThemes(process.env.THEMES);
 
         if (process.env.SETTING_JSON) {
             const settingFile = r.readSettingJson(process.env.SETTING_JSON);
@@ -56,58 +64,16 @@ export const main = async (): Promise<void> => {
                 );
             }
         } else {
-            const settings = userInfo.isHalloween
-                ? template.HalloweenSettings
-                : template.NormalSettings;
-
-            f.writeFile(
-                'profile-green-animate.svg',
-                create.createSvg(userInfo, settings, true),
-            );
-            f.writeFile(
-                'profile-green.svg',
-                create.createSvg(userInfo, settings, false),
-            );
-
-            // Northern hemisphere
-            f.writeFile(
-                'profile-season-animate.svg',
-                create.createSvg(userInfo, template.NorthSeasonSettings, true),
-            );
-            f.writeFile(
-                'profile-season.svg',
-                create.createSvg(userInfo, template.NorthSeasonSettings, false),
-            );
-
-            // Southern hemisphere
-            f.writeFile(
-                'profile-south-season-animate.svg',
-                create.createSvg(userInfo, template.SouthSeasonSettings, true),
-            );
-            f.writeFile(
-                'profile-south-season.svg',
-                create.createSvg(userInfo, template.SouthSeasonSettings, false),
-            );
-
-            f.writeFile(
-                'profile-night-view.svg',
-                create.createSvg(userInfo, template.NightViewSettings, true),
-            );
-
-            f.writeFile(
-                'profile-night-green.svg',
-                create.createSvg(userInfo, template.NightGreenSettings, true),
-            );
-
-            f.writeFile(
-                'profile-night-rainbow.svg',
-                create.createSvg(userInfo, template.NightRainbowSettings, true),
-            );
-
-            f.writeFile(
-                'profile-gitblock.svg',
-                create.createSvg(userInfo, template.GitBlockSettings, true),
-            );
+            for (const theme of selected) {
+                f.writeFile(
+                    `profile-${theme.name}.svg`,
+                    create.createSvg(
+                        userInfo,
+                        theme.settings(userInfo.isHalloween),
+                        theme.animate,
+                    ),
+                );
+            }
         }
     } catch (error) {
         console.error(error);

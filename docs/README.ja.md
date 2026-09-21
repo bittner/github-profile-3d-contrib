@@ -1,6 +1,6 @@
 # Profile 3D Contrib
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 <!-- 言語コードの順序（英語を除く） -->
 [English (en)](../README.md) |
@@ -17,7 +17,9 @@
 
 ## 概要
 
-この GitHub Action は GitHub のコントリビュートカレンダーの 3D 版を SVG で作成します。
+この GitHub Action は、GitHub での活動と GitLab インスタンス（例: gitlab.com）や Forgejo/Gitea インスタンス（例: Codeberg）での活動を組み合わせ、日ごとに異なる色で積み上げた 3D コントリビュートカレンダーをプロフィール画像として作成します。
+
+これは GitHub のみに対応した [yoshi389111/github-profile-3d-contrib](https://github.com/yoshi389111/github-profile-3d-contrib) のフォークで、その設定との互換性を保っています。追加の設定については [外部ソース](#外部ソース) を参照してください。
 
 ## 使い方 (GitHub Actions) - 基本
 
@@ -57,11 +59,16 @@ jobs:
     runs-on: ubuntu-latest
     name: generate-profile-3d-contrib
     steps:
-      - uses: actions/checkout@v5
-      - uses: yoshi389111/github-profile-3d-contrib@latest
+      - uses: actions/checkout@v7
+      - uses: bittner/github-profile-3d-contrib@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          EXTERNAL_SOURCES: >-
+            [
+              {"name": "GitLab", "type": "gitlab", "url": "https://gitlab.com", "user": "octocat", "color": "#fc6d26"},
+              {"name": "Codeberg", "type": "forgejo", "url": "https://codeberg.org", "user": "octocat", "color": "#2185d0", "darkColor": "#3b9ae1"}
+            ]
       - name: Commit & Push
         run: |
           git config user.name github-actions
@@ -85,14 +92,16 @@ jobs:
 
 #### 環境変数
 
-サンプルでは `GITHUB_TOKEN` と `USERNAME` のみ指定していますが、以下の環境変数を指定できます：
+サンプルでは `GITHUB_TOKEN`、`USERNAME`、`EXTERNAL_SOURCES` を指定していますが、以下の環境変数を指定できます：
 
 - `GITHUB_TOKEN` : (必須) アクセストークン
 - `USERNAME` : (必須) 対象のユーザー名. （あるいは引数で指定する）
 - `MAX_REPOS` : (任意) 最大のリポジトリ数。デフォルトは100 - バージョン 0.2.0 で追加
-- `SETTING_JSON` : (任意) 設定JSONファイルパス。詳細は `yoshi389111/github-profile-3d-contrib` リポジトリの `sample-settings/*.json` や `src/type.ts` を参照してください - バージョン 0.6.0 で追加
+- `SETTING_JSON` : (任意) 設定JSONファイルパス。詳細は `bittner/github-profile-3d-contrib` リポジトリの `sample-settings/*.json` や `src/type.ts` を参照してください - バージョン 0.6.0 で追加
 - `GITHUB_ENDPOINT` : (任意) Github GraphQL エンドポイント。たとえば、GitHub.comではなく、会社のGitHub Enterpriseのアクティビティに基づいてコントリビュートカレンダーを作成したい場合は、この環境変数を設定します。例： `https://github.mycompany.com/api/graphql` - バージョン 0.8.0 で追加
 - `YEAR` : (任意) 過去のカレンダーを出力する場合、年を指定。特にコマンドラインからツールを実行するときを想定しています。 - バージョン 0.8.0 で追加
+- `THEMES` : (任意) `SETTING_JSON` を指定しない場合に生成する組み込みテーマのカンマ区切りリスト。例: `green-animate,gitblock`。指定可能: `green-animate`、`green`、`season-animate`、`season`、`south-season-animate`、`south-season`、`night-view`、`night-green`、`night-rainbow`、`gitblock`。既定ではすべて生成します。`green` と `green-animate` は閲覧者のダークモードに自動的に適応します（元プロジェクトの `green-dual` サンプルと同様）。
+- `EXTERNAL_SOURCES` : (任意) 他のフォージのコントリビューションフィードを JSON 配列で指定します。GitHub のバーの上にそれぞれの色で積み上げて描画されます。各要素には `name`（凡例のラベル）、`type`（GitLab インスタンスは `gitlab`、Codeberg などの Forgejo/Gitea インスタンスは `forgejo`）、`url`（インスタンスのベース URL）、`user` が必要です。`color` と `darkColor`（`#RRGGBB`、後者はダークモード用）は任意です。下記の [外部ソース](#外部ソース) を参照してください。
 
 #### `GITHUB_TOKEN` について
 
@@ -162,31 +171,31 @@ on:
 
 例：green バージョン
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
 
 例：season バージョン（北半球）
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
 
 例：season バージョン（南半球）
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
 例：night view バージョン
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
 
 例：night green バージョン
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
 
 例：night rainbow バージョン
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
 
 例：git block バージョン
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 ### 手順 4. README.md を追加
 
@@ -197,6 +206,12 @@ on:
 ```md
 ![](./profile-3d-contrib/profile-green-animate.svg)
 ```
+
+#### 外部ソース
+
+GitLab（gitlab.com またはセルフホストのインスタンス）や Forgejo/Gitea（例: Codeberg）でのコントリビューションをカレンダーに追加できます。公開プロフィールのフィード（`/users/<user>/calendar.json` と `/api/v1/users/<user>/heatmap`）から取得するため追加のトークンは不要で、各日の GitHub のバーの上に積み上げたセグメントとして描画されます。凡例に各ソース名が表示されます。上記のワークフローサンプルの `EXTERNAL_SOURCES` は gitlab.com と Codeberg を追加します。
+
+ソースの色は設定 JSON の `sourceColors` でもテーマごとに指定できます。キーはソース名です（例: `"sourceColors": {"GitLab": "#fc6d26"}`）。`darkMode` 内の同じキーはダークモード用に上書きします。凡例を省略するには設定 JSON で `"sourceLegend": false` を指定してください。バーの高さは合計値を使うため、各プラットフォームのセグメントは同じ対数スケールを共有します。外部のコントリビューション数は `contributions` の合計に含まれますが、GitHub 固有のカテゴリを持つレーダーチャートには含まれません。
 
 ## 使い方 (GitHub Actions) - 高度な例
 
@@ -222,6 +237,8 @@ node_modules/.bin/ts-node src/index.ts USER_NAME
 npm run build
 node . USER_NAME
 ```
+
+上記の環境変数 `THEMES` と `EXTERNAL_SOURCES` はローカル実行でも使用できます。
 
 ## License
 

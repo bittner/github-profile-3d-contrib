@@ -5,7 +5,32 @@ const DARKER_RIGHT = 1;
 const DARKER_LEFT = 0.5;
 const DARKER_TOP = 0;
 
-const createColors = (settings: type.Settings): string => {
+const createSourceColors = (
+    settings: type.Settings,
+    sources: Array<type.ExternalSourceInfo>,
+    isDark: boolean,
+): string[] =>
+    sources.flatMap((source, i) => {
+        const overrides =
+            'sourceColors' in settings ? settings.sourceColors : {};
+        const color =
+            (overrides && overrides[source.name]) ||
+            (isDark ? source.darkColor : source.color);
+        const topColor = d3.rgb(color).darker(DARKER_TOP).toString();
+        const leftColor = d3.rgb(color).darker(DARKER_LEFT).toString();
+        const rightColor = d3.rgb(color).darker(DARKER_RIGHT).toString();
+        return [
+            `.src-top-${i} { fill: ${topColor}; }`,
+            `.src-left-${i} { fill: ${leftColor}; }`,
+            `.src-right-${i} { fill: ${rightColor}; }`,
+        ];
+    });
+
+const createColors = (
+    settings: type.Settings,
+    sources: Array<type.ExternalSourceInfo>,
+    isDark = false,
+): string => {
     const cssColors: string[] = [];
 
     cssColors.push(
@@ -163,20 +188,25 @@ const createColors = (settings: type.Settings): string => {
         }
     }
 
+    cssColors.push(...createSourceColors(settings, sources, isDark));
+
     return cssColors.join('\n');
 };
 
-export const createCssColors = (settings: type.Settings): string => {
+export const createCssColors = (
+    settings: type.Settings,
+    sources: Array<type.ExternalSourceInfo> = [],
+): string => {
     const cssColors: string[] = [];
 
     // insert colors of light mode.
-    cssColors.push(createColors(settings));
+    cssColors.push(createColors(settings, sources));
 
     // insert colors of dark mode.
     if ('darkMode' in settings && settings.darkMode) {
         cssColors.push(
             '@media (prefers-color-scheme: dark) {',
-            createColors(settings.darkMode),
+            createColors(settings.darkMode, sources, true),
             '}',
         );
     }

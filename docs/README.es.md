@@ -1,6 +1,6 @@
 # Profile 3D Contrib
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 <!-- Orden del código de idioma (excepto inglés) -->
 [English (en)](../README.md) |
@@ -22,7 +22,9 @@ Español (es) |
 
 ## Visión general
 
-Esta acción de GitHub crea un calendario de contribuciones de GitHub en una imagen de perfil 3D.
+Esta acción de GitHub crea un calendario de contribuciones 3D para tu imagen de perfil, combinando tu actividad en GitHub con tu actividad en instancias de GitLab (p. ej. gitlab.com) e instancias de Forgejo/Gitea (p. ej. Codeberg), apiladas por día en colores distintos.
+
+Es un fork de [yoshi389111/github-profile-3d-contrib](https://github.com/yoshi389111/github-profile-3d-contrib), que se limita a GitHub, y se mantiene compatible con su configuración. Consulta [Fuentes externas](#fuentes-externas) para la configuración adicional.
 
 ## Cómo usar (GitHub Actions) - Básico
 
@@ -61,11 +63,16 @@ jobs:
     runs-on: ubuntu-latest
     name: generate-profile-3d-contrib
     steps:
-      - uses: actions/checkout@v5
-      - uses: yoshi389111/github-profile-3d-contrib@latest
+      - uses: actions/checkout@v7
+      - uses: bittner/github-profile-3d-contrib@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          EXTERNAL_SOURCES: >-
+            [
+              {"name": "GitLab", "type": "gitlab", "url": "https://gitlab.com", "user": "octocat", "color": "#fc6d26"},
+              {"name": "Codeberg", "type": "forgejo", "url": "https://codeberg.org", "user": "octocat", "color": "#2185d0", "darkColor": "#3b9ae1"}
+            ]
       - name: Commit & Push
         run: |
           git config user.name github-actions
@@ -88,14 +95,16 @@ Esto agregará el workflow a tu repositorio.
 
 #### Variables de entorno
 
-En el ejemplo, solo se especifican `GITHUB_TOKEN` y `USERNAME`, pero puedes usar las siguientes variables de entorno:
+En el ejemplo se especifican `GITHUB_TOKEN`, `USERNAME` y `EXTERNAL_SOURCES`, pero puedes usar las siguientes variables de entorno:
 
 - `GITHUB_TOKEN` : (requerido) token de acceso
 - `USERNAME` : (requerido) nombre de usuario objetivo (o especificar como argumento).
 - `MAX_REPOS` : (opcional) número máximo de repositorios, por defecto 100 - desde ver. 0.2.0
-- `SETTING_JSON` : (opcional) ruta del archivo json de configuración. Consulta `sample-settings/*.json` y `src/type.ts` en el repositorio `yoshi389111/github-profile-3d-contrib` para más detalles. - desde ver. 0.6.0
+- `SETTING_JSON` : (opcional) ruta del archivo json de configuración. Consulta `sample-settings/*.json` y `src/type.ts` en el repositorio `bittner/github-profile-3d-contrib` para más detalles. - desde ver. 0.6.0
 - `GITHUB_ENDPOINT` : (opcional) endpoint de Github GraphQL. Por ejemplo, si quieres crear el calendario de contribuciones basado en la actividad de GitHub Enterprise de tu empresa en vez de GitHub.com, configura esta variable. Ejemplo: `https://github.mycompany.com/api/graphql` - desde ver. 0.8.0
 - `YEAR` : (opcional) Para calendarios pasados, especifica el año. Pensado para ejecución desde la línea de comandos. - desde ver. 0.8.0
+- `THEMES` : (opcional) lista separada por comas de los temas integrados que se generan cuando no se establece `SETTING_JSON`, p. ej. `green-animate,gitblock`. Disponibles: `green-animate`, `green`, `season-animate`, `season`, `south-season-animate`, `south-season`, `night-view`, `night-green`, `night-rainbow`, `gitblock`. Todos por defecto. Los temas `green` y `green-animate` se adaptan automáticamente al modo oscuro del espectador (como el ejemplo `green-dual` del proyecto original).
+- `EXTERNAL_SOURCES` : (opcional) array JSON de feeds de contribuciones de otras forjas, apilados sobre las barras de GitHub en sus propios colores. Cada entrada necesita `name` (etiqueta de la leyenda), `type` (`gitlab` para instancias de GitLab, `forgejo` para instancias de Forgejo/Gitea como Codeberg), `url` (URL base de la instancia) y `user`; `color` y `darkColor` (`#RRGGBB`, este último usado en modo oscuro) son opcionales. Consulta [Fuentes externas](#fuentes-externas) más abajo.
 
 #### Sobre `GITHUB_TOKEN`
 
@@ -165,31 +174,31 @@ Puedes usar estas imágenes en tu README.md como se muestra a continuación.
 
 Ejemplo: versión green
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
 
 Ejemplo: versión season (hemisferio norte)
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
 
 Ejemplo: versión season (hemisferio sur)
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
 Ejemplo: versión night view
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
 
 Ejemplo: versión night green
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
 
 Ejemplo: versión night rainbow
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
 
 Ejemplo: versión git block
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 ### Paso 4. Agregar imagen al README.md
 
@@ -200,6 +209,12 @@ Ejemplo:
 ```md
 ![](./profile-3d-contrib/profile-green-animate.svg)
 ```
+
+#### Fuentes externas
+
+Las contribuciones en GitLab (gitlab.com o una instancia propia) y en Forgejo/Gitea (p. ej. Codeberg) pueden añadirse al calendario. Se obtienen de los feeds públicos del perfil (`/users/<user>/calendar.json` y `/api/v1/users/<user>/heatmap`), por lo que no se necesitan tokens adicionales, y se dibujan como segmentos apilados sobre la barra de GitHub de cada día. Una leyenda nombra cada fuente. Las entradas de `EXTERNAL_SOURCES` del ejemplo de workflow anterior añaden gitlab.com y Codeberg.
+
+El color de una fuente también puede establecerse (por tema) en el JSON de configuración con `sourceColors`, usando el nombre de la fuente como clave, p. ej. `"sourceColors": {"GitLab": "#fc6d26"}`; la misma clave dentro de `darkMode` lo sobrescribe para el modo oscuro. Establece `"sourceLegend": false` en el JSON de configuración para omitir la leyenda. La altura de la barra usa el recuento combinado, de modo que los segmentos de las plataformas comparten una misma escala logarítmica. Los recuentos externos se incluyen en el total de `contributions`, pero no en el gráfico de radar, cuyas categorías son específicas de GitHub.
 
 ## Cómo usar (GitHub Actions) - Ejemplos avanzados
 
@@ -225,6 +240,8 @@ o
 npm run build
 node . USER_NAME
 ```
+
+Las variables de entorno `THEMES` y `EXTERNAL_SOURCES` descritas arriba también funcionan en las ejecuciones locales.
 
 ## Licencia
 

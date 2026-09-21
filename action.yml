@@ -1,5 +1,5 @@
 name: Profile-3D-Contrib
-description: Generate a 3D contribution calendar for your profile
+description: Generate a 3D contribution calendar from GitHub, GitLab and Forgejo activity
 author: yoshi389111
 
 runs:

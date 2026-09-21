@@ -17,6 +17,76 @@ const radarWidth = 400 * 1.3;
 const radarHeight = (radarWidth * 3) / 4;
 const radarX = width - radarWidth - 40;
 
+const githubSwatchClass = (settings: type.FullSettings): string => {
+    switch (settings.type) {
+        case 'normal':
+            return 'cont-top-4';
+        case 'season':
+            return 'cont-top-p14-4';
+        case 'rainbow':
+            return 'rb-l4-top';
+        case 'bitmap':
+            return 'cont-top-bg-4';
+    }
+};
+
+const LEGEND_FONT_SIZE = 14;
+const LEGEND_SWATCH = 14;
+const LEGEND_GAP = 6;
+const LEGEND_SPACING = 18;
+/** rough average glyph width, jsdom cannot measure text */
+const LEGEND_GLYPH_WIDTH = LEGEND_FONT_SIZE * 0.55;
+
+/** Draw a right-aligned row of swatches naming every contribution source. */
+const createSourceLegend = (
+    svg: d3.Selection<SVGSVGElement, unknown, null, unknown>,
+    userInfo: type.UserInfo,
+    right: number,
+    y: number,
+    settings: type.FullSettings,
+): void => {
+    if (
+        userInfo.externalSources.length === 0 ||
+        settings.sourceLegend === false
+    ) {
+        return;
+    }
+    const entries = [
+        { label: 'GitHub', cssClass: githubSwatchClass(settings) },
+        ...userInfo.externalSources.map((source, i) => ({
+            label: source.name,
+            cssClass: `src-top-${i}`,
+        })),
+    ];
+    const itemWidth = (label: string): number =>
+        LEGEND_SWATCH + LEGEND_GAP + label.length * LEGEND_GLYPH_WIDTH;
+    const total =
+        entries.map((e) => itemWidth(e.label)).reduce((a, b) => a + b, 0) +
+        (entries.length - 1) * LEGEND_SPACING;
+
+    const legend = svg.append('g');
+    let x = right - total;
+    for (const entry of entries) {
+        legend
+            .append('rect')
+            .attr('x', util.toFixed(x))
+            .attr('y', y)
+            .attr('width', LEGEND_SWATCH)
+            .attr('height', LEGEND_SWATCH)
+            .attr('rx', 2)
+            .attr('class', entry.cssClass);
+        legend
+            .append('text')
+            .style('font-size', `${LEGEND_FONT_SIZE}px`)
+            .attr('x', util.toFixed(x + LEGEND_SWATCH + LEGEND_GAP))
+            .attr('y', y + LEGEND_SWATCH / 2)
+            .attr('dominant-baseline', 'central')
+            .attr('class', 'fill-weak')
+            .text(entry.label);
+        x += itemWidth(entry.label) + LEGEND_SPACING;
+    }
+};
+
 export const createSvg = (
     userInfo: type.UserInfo,
     settings: type.Settings,
@@ -46,7 +116,7 @@ export const createSvg = (
     svg.append('style').html(
         [
             '* { font-family: "Ubuntu", "Helvetica", "Arial", sans-serif; }',
-            colors.createCssColors(settings),
+            colors.createCssColors(settings, userInfo.externalSources),
         ].join('\n'),
     );
 
@@ -232,6 +302,8 @@ export const createSvg = (
             .attr('text-anchor', 'end')
             .text(period)
             .attr('class', 'fill-weak');
+
+        createSourceLegend(svg, userInfo, width - 20, 44, settings);
     }
     return container.html();
 };

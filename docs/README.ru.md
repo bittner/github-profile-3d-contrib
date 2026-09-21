@@ -1,6 +1,6 @@
 # Profile 3D Contrib
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 <!-- Порядок кодов языков (кроме английского) -->
 [English (en)](../README.md) |
@@ -22,7 +22,9 @@
 
 ## Обзор
 
-Этот GitHub Action создает календарь вкладов GitHub на 3D-изображении профиля.
+Этот GitHub Action создает 3D-календарь вкладов для изображения вашего профиля, объединяя вашу активность на GitHub с активностью на инстансах GitLab (например, gitlab.com) и инстансах Forgejo/Gitea (например, Codeberg), сложенную по дням в разных цветах.
+
+Это форк [yoshi389111/github-profile-3d-contrib](https://github.com/yoshi389111/github-profile-3d-contrib), который ограничен GitHub, и он остается совместимым с его конфигурацией. Дополнительную настройку см. в разделе [Внешние источники](#внешние-источники).
 
 ## Как использовать (GitHub Actions) - Базовый
 
@@ -61,11 +63,16 @@ jobs:
     runs-on: ubuntu-latest
     name: generate-profile-3d-contrib
     steps:
-      - uses: actions/checkout@v5
-      - uses: yoshi389111/github-profile-3d-contrib@latest
+      - uses: actions/checkout@v7
+      - uses: bittner/github-profile-3d-contrib@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          EXTERNAL_SOURCES: >-
+            [
+              {"name": "GitLab", "type": "gitlab", "url": "https://gitlab.com", "user": "octocat", "color": "#fc6d26"},
+              {"name": "Codeberg", "type": "forgejo", "url": "https://codeberg.org", "user": "octocat", "color": "#2185d0", "darkColor": "#3b9ae1"}
+            ]
       - name: Commit & Push
         run: |
           git config user.name github-actions
@@ -88,14 +95,16 @@ jobs:
 
 #### Переменные окружения
 
-В примере указаны только `GITHUB_TOKEN` и `USERNAME` как переменные окружения, но вы можете указать следующие переменные:
+В примере указаны `GITHUB_TOKEN`, `USERNAME` и `EXTERNAL_SOURCES` как переменные окружения, но вы можете указать следующие переменные:
 
 - `GITHUB_TOKEN` : (обязательно) токен доступа
 - `USERNAME` : (обязательно) целевое имя пользователя (или укажите аргументом).
 - `MAX_REPOS` : (опционально) максимальное количество репозиториев, по умолчанию 100 - начиная с версии 0.2.0
-- `SETTING_JSON` : (опционально) путь к файлу настроек json. См. `sample-settings/*.json` и `src/type.ts` в репозитории `yoshi389111/github-profile-3d-contrib` для подробностей. - начиная с версии 0.6.0
+- `SETTING_JSON` : (опционально) путь к файлу настроек json. См. `sample-settings/*.json` и `src/type.ts` в репозитории `bittner/github-profile-3d-contrib` для подробностей. - начиная с версии 0.6.0
 - `GITHUB_ENDPOINT` : (опционально) конечная точка Github GraphQL. Например, если вы хотите создать календарь вкладов на основе активности вашей корпоративной GitHub Enterprise, установите эту переменную окружения. Например: `https://github.mycompany.com/api/graphql` - начиная с версии 0.8.0
 - `YEAR` : (опционально) Для календарей прошлых лет укажите год. Это предназначено для использования при запуске инструмента из командной строки. - начиная с версии 0.8.0
+- `THEMES` : (опционально) список встроенных тем через запятую, которые генерируются, если `SETTING_JSON` не задан, например `green-animate,gitblock`. Доступны: `green-animate`, `green`, `season-animate`, `season`, `south-season-animate`, `south-season`, `night-view`, `night-green`, `night-rainbow`, `gitblock`. По умолчанию все. Темы `green` и `green-animate` автоматически подстраиваются под темный режим зрителя (как пример `green-dual` исходного проекта).
+- `EXTERNAL_SOURCES` : (опционально) JSON-массив лент вкладов с других форжей, складываемых поверх столбцов GitHub в собственных цветах. Каждому элементу нужны `name` (подпись в легенде), `type` (`gitlab` для инстансов GitLab, `forgejo` для инстансов Forgejo/Gitea, таких как Codeberg), `url` (базовый URL инстанса) и `user`; `color` и `darkColor` (`#RRGGBB`, последний используется в темном режиме) необязательны. См. [Внешние источники](#внешние-источники) ниже.
 
 #### О `GITHUB_TOKEN`
 
@@ -165,31 +174,31 @@ on:
 
 Пример: зеленая версия
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
 
 Пример: сезонная версия (Северное полушарие.)
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
 
 Пример: сезонная версия (Южное полушарие.)
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
 Пример: ночная версия
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
 
 Пример: ночная зеленая версия
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
 
 Пример: ночная радужная версия
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
 
 Пример: версия git block
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 ### Шаг 4. Добавьте изображение в README.md
 
@@ -200,6 +209,12 @@ on:
 ```md
 ![](./profile-3d-contrib/profile-green-animate.svg)
 ```
+
+#### Внешние источники
+
+Вклады на GitLab (gitlab.com или собственный инстанс) и на Forgejo/Gitea (например, Codeberg) можно добавить в календарь. Они загружаются из публичных лент профиля (`/users/<user>/calendar.json` и `/api/v1/users/<user>/heatmap`), поэтому дополнительные токены не нужны, и рисуются как сложенные сегменты поверх столбца GitHub за каждый день. Легенда называет каждый источник. Элементы `EXTERNAL_SOURCES` в примере рабочего процесса выше добавляют gitlab.com и Codeberg.
+
+Цвет источника также можно задать (для каждой темы) в JSON настроек с помощью `sourceColors`, где ключом служит имя источника, например `"sourceColors": {"GitLab": "#fc6d26"}`; тот же ключ внутри `darkMode` переопределяет его для темного режима. Укажите `"sourceLegend": false` в JSON настроек, чтобы убрать легенду. Высота столбца использует суммарное количество, поэтому сегменты платформ используют одну логарифмическую шкалу. Внешние вклады включаются в общее число `contributions`, но не в радарную диаграмму, категории которой специфичны для GitHub.
 
 ## Как использовать (GitHub Actions) - Продвинутые примеры
 
@@ -225,6 +240,8 @@ node_modules/.bin/ts-node src/index.ts USER_NAME
 npm run build
 node . USER_NAME
 ```
+
+Описанные выше переменные окружения `THEMES` и `EXTERNAL_SOURCES` работают и при локальном запуске.
 
 ## Лицензия
 

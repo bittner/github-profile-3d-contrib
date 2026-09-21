@@ -1,6 +1,6 @@
 # 프로필 3D 기여도
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 <!-- 언어 코드 순서(영어 제외) -->
 [English (en)](../README.md) |
@@ -22,7 +22,9 @@
 
 ## 개요
 
-이 GitHub Action은 GitHub 기여도 캘린더를 3D 프로필 이미지로 생성합니다.
+이 GitHub Action은 GitHub에서의 활동과 GitLab 인스턴스(예: gitlab.com) 및 Forgejo/Gitea 인스턴스(예: Codeberg)에서의 활동을 결합하여, 날짜별로 서로 다른 색상으로 쌓아 올린 3D 기여도 캘린더를 프로필 이미지로 생성합니다.
+
+이 프로젝트는 GitHub만 지원하는 [yoshi389111/github-profile-3d-contrib](https://github.com/yoshi389111/github-profile-3d-contrib)의 포크이며, 그 설정과 호환됩니다. 추가 설정은 [외부 소스](#외부-소스)를 참고하세요.
 
 ## 사용 방법 (GitHub Actions) - 기본
 
@@ -61,11 +63,16 @@ jobs:
     runs-on: ubuntu-latest
     name: generate-profile-3d-contrib
     steps:
-      - uses: actions/checkout@v5
-      - uses: yoshi389111/github-profile-3d-contrib@latest
+      - uses: actions/checkout@v7
+      - uses: bittner/github-profile-3d-contrib@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          EXTERNAL_SOURCES: >-
+            [
+              {"name": "GitLab", "type": "gitlab", "url": "https://gitlab.com", "user": "octocat", "color": "#fc6d26"},
+              {"name": "Codeberg", "type": "forgejo", "url": "https://codeberg.org", "user": "octocat", "color": "#2185d0", "darkColor": "#3b9ae1"}
+            ]
       - name: Commit & Push
         run: |
           git config user.name github-actions
@@ -88,7 +95,7 @@ jobs:
 
 #### 환경 변수
 
-샘플에서는 `GITHUB_TOKEN`과 `USERNAME`만 환경 변수로 지정되어 있지만, 다음 환경 변수를 지정할 수 있습니다:
+샘플에서는 `GITHUB_TOKEN`, `USERNAME`, `EXTERNAL_SOURCES`가 환경 변수로 지정되어 있지만, 다음 환경 변수를 지정할 수 있습니다:
 
 - `GITHUB_TOKEN` : (필수) 액세스 토큰
 - `USERNAME` : (필수) 대상 사용자 이름 (또는 인수로 지정)
@@ -96,6 +103,8 @@ jobs:
 - `SETTING_JSON` : (선택) 설정 json 파일 경로. 자세한 내용은 `sample-settings/*.json` 및 `src/type.ts`를 참고하세요. - ver. 0.6.0부터
 - `GITHUB_ENDPOINT` : (선택) Github GraphQL 엔드포인트. 예를 들어, 회사의 GitHub Enterprise 활동을 기반으로 기여도 캘린더를 만들고 싶다면 이 환경 변수를 설정하세요. 예: `https://github.mycompany.com/api/graphql` - ver. 0.8.0부터
 - `YEAR` : (선택) 과거 캘린더를 위해 연도를 지정하세요. 커맨드라인에서 도구를 실행할 때 지정합니다. - ver. 0.8.0부터
+- `THEMES` : (선택) `SETTING_JSON`이 설정되지 않았을 때 생성할 내장 테마의 쉼표로 구분된 목록. 예: `green-animate,gitblock`. 사용 가능: `green-animate`, `green`, `season-animate`, `season`, `south-season-animate`, `south-season`, `night-view`, `night-green`, `night-rainbow`, `gitblock`. 기본값은 전체입니다. `green`과 `green-animate` 테마는 보는 사람의 다크 모드에 자동으로 맞춰집니다(원본 프로젝트의 `green-dual` 샘플과 동일).
+- `EXTERNAL_SOURCES` : (선택) 다른 포지의 기여도 피드를 담은 JSON 배열로, GitHub 막대 위에 각자의 색상으로 쌓입니다. 각 항목에는 `name`(범례 라벨), `type`(GitLab 인스턴스는 `gitlab`, Codeberg 같은 Forgejo/Gitea 인스턴스는 `forgejo`), `url`(인스턴스의 기본 URL), `user`가 필요합니다. `color`와 `darkColor`(`#RRGGBB`, 후자는 다크 모드용)는 선택 사항입니다. 아래 [외부 소스](#외부-소스)를 참고하세요.
 
 #### `GITHUB_TOKEN`에 대하여
 
@@ -165,31 +174,31 @@ on:
 
 예시: green 버전
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
 
 예시: season 버전 (북반구)
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
 
 예시: season 버전 (남반구)
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
 예시: night view 버전
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
 
 예시: night green 버전
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
 
 예시: night rainbow 버전
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
 
 예시: git block 버전
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 ### 4단계. README.md에 이미지 추가
 
@@ -200,6 +209,12 @@ on:
 ```md
 ![](./profile-3d-contrib/profile-green-animate.svg)
 ```
+
+#### 외부 소스
+
+GitLab(gitlab.com 또는 자체 호스팅 인스턴스)과 Forgejo/Gitea(예: Codeberg)의 기여도를 캘린더에 추가할 수 있습니다. 공개 프로필 피드(`/users/<user>/calendar.json` 및 `/api/v1/users/<user>/heatmap`)에서 가져오므로 추가 토큰이 필요 없으며, 각 날짜의 GitHub 막대 위에 쌓인 세그먼트로 그려집니다. 범례에 모든 소스의 이름이 표시됩니다. 위 워크플로우 샘플의 `EXTERNAL_SOURCES` 항목은 gitlab.com과 Codeberg를 추가합니다.
+
+소스의 색상은 설정 JSON의 `sourceColors`에서 소스 이름을 키로 하여 테마별로 지정할 수도 있습니다(예: `"sourceColors": {"GitLab": "#fc6d26"}`). `darkMode` 안의 같은 키는 다크 모드용으로 이를 덮어씁니다. 범례를 생략하려면 설정 JSON에 `"sourceLegend": false`를 지정하세요. 막대 높이는 합산된 수를 사용하므로 플랫폼별 세그먼트가 하나의 로그 스케일을 공유합니다. 외부 기여도는 `contributions` 합계에는 포함되지만, GitHub 전용 항목으로 구성된 레이더 차트에는 포함되지 않습니다.
 
 ## 사용 방법 (GitHub Actions) - 고급 예시
 
@@ -225,6 +240,8 @@ node_modules/.bin/ts-node src/index.ts USER_NAME
 npm run build
 node . USER_NAME
 ```
+
+위에서 설명한 `THEMES`와 `EXTERNAL_SOURCES` 환경 변수는 로컬 실행에서도 동작합니다.
 
 ## 라이선스
 

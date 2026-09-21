@@ -1,6 +1,6 @@
 # Profile 3D Contrib
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 <!-- Orden del código de idioma (excepto inglés) -->
 [English (en)](../README.md) |
@@ -22,7 +22,9 @@ Français (fr) |
 
 ## Vue d'ensemble
 
-Cette action GitHub crée un calendrier de contributions GitHub sur une image de profil 3D.
+Cette action GitHub crée un calendrier de contributions 3D pour votre image de profil, en combinant votre activité sur GitHub avec votre activité sur des instances GitLab (p. ex. gitlab.com) et des instances Forgejo/Gitea (p. ex. Codeberg), empilées par jour dans des couleurs distinctes.
+
+C'est un fork de [yoshi389111/github-profile-3d-contrib](https://github.com/yoshi389111/github-profile-3d-contrib), qui se limite à GitHub, et il reste compatible avec sa configuration. Voir [Sources externes](#sources-externes) pour la configuration supplémentaire.
 
 ## Comment utiliser (GitHub Actions) - Basique
 
@@ -61,11 +63,16 @@ jobs:
     runs-on: ubuntu-latest
     name: generate-profile-3d-contrib
     steps:
-      - uses: actions/checkout@v5
-      - uses: yoshi389111/github-profile-3d-contrib@latest
+      - uses: actions/checkout@v7
+      - uses: bittner/github-profile-3d-contrib@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          EXTERNAL_SOURCES: >-
+            [
+              {"name": "GitLab", "type": "gitlab", "url": "https://gitlab.com", "user": "octocat", "color": "#fc6d26"},
+              {"name": "Codeberg", "type": "forgejo", "url": "https://codeberg.org", "user": "octocat", "color": "#2185d0", "darkColor": "#3b9ae1"}
+            ]
       - name: Commit & Push
         run: |
           git config user.name github-actions
@@ -88,14 +95,16 @@ Cela ajoutera le workflow à votre dépôt.
 
 #### Variables d'environnement
 
-Dans l'exemple, seules `GITHUB_TOKEN` et `USERNAME` sont spécifiées comme variables d'environnement, mais vous pouvez spécifier les variables suivantes :
+Dans l'exemple, `GITHUB_TOKEN`, `USERNAME` et `EXTERNAL_SOURCES` sont spécifiées comme variables d'environnement, mais vous pouvez spécifier les variables suivantes :
 
 - `GITHUB_TOKEN` : (obligatoire) jeton d'accès
 - `USERNAME` : (obligatoire) nom d'utilisateur cible (ou à spécifier en argument).
 - `MAX_REPOS` : (optionnel) nombre max de dépôts, par défaut 100 - depuis la version 0.2.0
-- `SETTING_JSON` : (optionnel) chemin du fichier json de configuration. Voir `sample-settings/*.json` et `src/type.ts` dans le dépôt `yoshi389111/github-profile-3d-contrib` pour plus de détails. - depuis la version 0.6.0
+- `SETTING_JSON` : (optionnel) chemin du fichier json de configuration. Voir `sample-settings/*.json` et `src/type.ts` dans le dépôt `bittner/github-profile-3d-contrib` pour plus de détails. - depuis la version 0.6.0
 - `GITHUB_ENDPOINT` : (optionnel) endpoint GraphQL de Github. Par exemple, pour créer un calendrier de contributions basé sur l'activité GitHub Enterprise de votre entreprise au lieu de GitHub.com, définissez cette variable d'environnement. ex. `https://github.mycompany.com/api/graphql` - depuis la version 0.8.0
 - `YEAR` : (optionnel) Pour les calendriers passés, spécifiez l'année. Ceci est destiné à être spécifié lors de l'exécution de l'outil en ligne de commande. - depuis la version 0.8.0
+- `THEMES` : (optionnel) liste séparée par des virgules des thèmes intégrés à générer lorsque `SETTING_JSON` n'est pas défini, p. ex. `green-animate,gitblock`. Disponibles : `green-animate`, `green`, `season-animate`, `season`, `south-season-animate`, `south-season`, `night-view`, `night-green`, `night-rainbow`, `gitblock`. Tous par défaut. Les thèmes `green` et `green-animate` s'adaptent automatiquement au mode sombre du lecteur (comme l'exemple `green-dual` du projet d'origine).
+- `EXTERNAL_SOURCES` : (optionnel) tableau JSON de flux de contributions d'autres forges, empilés sur les barres GitHub dans leurs propres couleurs. Chaque entrée nécessite `name` (libellé de la légende), `type` (`gitlab` pour les instances GitLab, `forgejo` pour les instances Forgejo/Gitea comme Codeberg), `url` (URL de base de l'instance) et `user` ; `color` et `darkColor` (`#RRGGBB`, ce dernier utilisé en mode sombre) sont optionnels. Voir [Sources externes](#sources-externes) ci-dessous.
 
 #### À propos de `GITHUB_TOKEN`
 
@@ -165,31 +174,31 @@ Vous pouvez utiliser ces images dans votre README.md comme ci-dessous.
 
 Exemple : version verte
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
 
 Exemple : version saison (hémisphère nord.)
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
 
 Exemple : version saison (hémisphère sud.)
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
 Exemple : version vue nocturne
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
 
 Exemple : version verte nocturne
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
 
 Exemple : version arc-en-ciel nocturne
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
 
 Exemple : version git block
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 ### Étape 4. Ajouter l'image au README.md
 
@@ -200,6 +209,12 @@ Exemple :
 ```md
 ![](./profile-3d-contrib/profile-green-animate.svg)
 ```
+
+#### Sources externes
+
+Les contributions sur GitLab (gitlab.com ou une instance auto-hébergée) et sur Forgejo/Gitea (p. ex. Codeberg) peuvent être ajoutées au calendrier. Elles sont récupérées depuis les flux publics du profil (`/users/<user>/calendar.json` et `/api/v1/users/<user>/heatmap`), aucun jeton supplémentaire n'est donc nécessaire, et dessinées sous forme de segments empilés sur la barre GitHub de chaque jour. Une légende nomme chaque source. Les entrées `EXTERNAL_SOURCES` de l'exemple de workflow ci-dessus ajoutent gitlab.com et Codeberg.
+
+La couleur d'une source peut aussi être définie (par thème) dans le JSON de configuration avec `sourceColors`, indexé par le nom de la source, p. ex. `"sourceColors": {"GitLab": "#fc6d26"}` ; la même clé dans `darkMode` la remplace pour le mode sombre. Définissez `"sourceLegend": false` dans le JSON de configuration pour omettre la légende. La hauteur de la barre utilise le total combiné, de sorte que les segments des plateformes partagent une même échelle logarithmique. Les contributions externes sont incluses dans le total `contributions`, mais pas dans le graphique radar, dont les catégories sont spécifiques à GitHub.
 
 ## Comment utiliser (GitHub Actions) - Exemples avancés
 
@@ -225,6 +240,8 @@ ou
 npm run build
 node . USER_NAME
 ```
+
+Les variables d'environnement `THEMES` et `EXTERNAL_SOURCES` décrites ci-dessus fonctionnent aussi pour les exécutions locales.
 
 ## Licence
 

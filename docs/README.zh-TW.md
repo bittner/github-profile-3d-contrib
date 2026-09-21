@@ -1,6 +1,6 @@
 # Profile 3D Contrib
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 <!-- 語言順序（不含英文） -->
 [English (en)](../README.md) |
@@ -22,7 +22,9 @@
 
 ## 概述
 
-此 GitHub Action 會在 3D 個人檔案圖片上建立 GitHub 貢獻日曆。
+此 GitHub Action 會為您的個人檔案圖片建立 3D 貢獻日曆，將您在 GitHub 上的活動與在 GitLab 執行個體（如 gitlab.com）和 Forgejo/Gitea 執行個體（如 Codeberg）上的活動合併，按天以不同顏色堆疊顯示。
+
+它是 [yoshi389111/github-profile-3d-contrib](https://github.com/yoshi389111/github-profile-3d-contrib) 的分支（該專案僅支援 GitHub），並與其設定保持相容。額外的設定請參見[外部來源](#外部來源)。
 
 ## 如何使用（GitHub Actions）- 基本
 
@@ -61,11 +63,16 @@ jobs:
     runs-on: ubuntu-latest
     name: generate-profile-3d-contrib
     steps:
-      - uses: actions/checkout@v5
-      - uses: yoshi389111/github-profile-3d-contrib@latest
+      - uses: actions/checkout@v7
+      - uses: bittner/github-profile-3d-contrib@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          EXTERNAL_SOURCES: >-
+            [
+              {"name": "GitLab", "type": "gitlab", "url": "https://gitlab.com", "user": "octocat", "color": "#fc6d26"},
+              {"name": "Codeberg", "type": "forgejo", "url": "https://codeberg.org", "user": "octocat", "color": "#2185d0", "darkColor": "#3b9ae1"}
+            ]
       - name: Commit & Push
         run: |
           git config user.name github-actions
@@ -88,7 +95,7 @@ jobs:
 
 #### 環境變數
 
-範例中僅指定了 `GITHUB_TOKEN` 和 `USERNAME`，但您可指定以下環境變數：
+範例中指定了 `GITHUB_TOKEN`、`USERNAME` 和 `EXTERNAL_SOURCES`，但您可指定以下環境變數：
 
 - `GITHUB_TOKEN`：（必填）存取權杖
 - `USERNAME`：（必填）目標使用者名稱（或以參數指定）。
@@ -96,6 +103,8 @@ jobs:
 - `SETTING_JSON`：（選填）設定 json 檔案路徑。詳見 `sample-settings/*.json` 及 `src/type.ts`。- 自 v0.6.0 起
 - `GITHUB_ENDPOINT`：（選填）Github GraphQL 端點。例如，若要根據公司 GitHub Enterprise 活動建立貢獻日曆，請設定此環境變數。例如：`https://github.mycompany.com/api/graphql` - 自 v0.8.0 起
 - `YEAR`：（選填）指定年份以產生過去的日曆。僅限命令列執行時指定。- 自 v0.8.0 起
+- `THEMES`：（選填）未設定 `SETTING_JSON` 時要產生的內建主題清單，以逗號分隔，例如 `green-animate,gitblock`。可用：`green-animate`、`green`、`season-animate`、`season`、`south-season-animate`、`south-season`、`night-view`、`night-green`、`night-rainbow`、`gitblock`。預設產生全部。`green` 和 `green-animate` 主題會自動配合檢視者的深色模式（與原專案的 `green-dual` 範例相同）。
+- `EXTERNAL_SOURCES`：（選填）其他程式碼託管平台的貢獻資料來源 JSON 陣列，以各自的顏色堆疊在 GitHub 柱體之上。每項需要 `name`（圖例標籤）、`type`（GitLab 執行個體為 `gitlab`，Codeberg 等 Forgejo/Gitea 執行個體為 `forgejo`）、`url`（執行個體的基底 URL）和 `user`；`color` 和 `darkColor`（`#RRGGBB`，後者用於深色模式）為選填。請參見下方的[外部來源](#外部來源)。
 
 #### 關於 `GITHUB_TOKEN`
 
@@ -165,31 +174,31 @@ on:
 
 範例：綠色版本
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-green-animate.svg)
 
 範例：季節版（北半球）
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-season-animate.svg)
 
 範例：季節版（南半球）
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-south-season-animate.svg)
 
 範例：夜景版
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-view.svg)
 
 範例：夜綠版
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-green.svg)
 
 範例：夜彩虹版
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-night-rainbow.svg)
 
 範例：Git Block 版
 
-![svg](https://raw.githubusercontent.com/yoshi389111/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
+![svg](https://raw.githubusercontent.com/bittner/github-profile-3d-contrib/main/docs/demo/profile-gitblock.svg)
 
 ### 步驟 4. 將圖片加入 README.md
 
@@ -200,6 +209,12 @@ on:
 ```md
 ![](./profile-3d-contrib/profile-green-animate.svg)
 ```
+
+#### 外部來源
+
+可以將 GitLab（gitlab.com 或自架執行個體）和 Forgejo/Gitea（如 Codeberg）上的貢獻加入日曆。這些資料從公開的個人檔案資料來源（`/users/<user>/calendar.json` 與 `/api/v1/users/<user>/heatmap`）取得，因此不需要額外的權杖，並以堆疊區段的形式繪製在每天的 GitHub 柱體之上。圖例會標示每個來源的名稱。上方工作流程範例中的 `EXTERNAL_SOURCES` 項目加入了 gitlab.com 和 Codeberg。
+
+來源的顏色也可以在設定 JSON 中透過 `sourceColors`（依主題）以來源名稱為鍵進行設定，例如 `"sourceColors": {"GitLab": "#fc6d26"}`；`darkMode` 內的同名鍵會覆寫深色模式下的顏色。在設定 JSON 中設定 `"sourceLegend": false` 可省略圖例。柱體高度使用合併後的數量，因此各平台的區段共用同一對數刻度。外部貢獻數計入 `contributions` 總數，但不計入雷達圖，因為其類別是 GitHub 特有的。
 
 ## 如何使用（GitHub Actions）- 進階範例
 
@@ -225,6 +240,8 @@ node_modules/.bin/ts-node src/index.ts USER_NAME
 npm run build
 node . USER_NAME
 ```
+
+上述 `THEMES` 和 `EXTERNAL_SOURCES` 環境變數在本地端執行時同樣有效。
 
 ## 授權
 

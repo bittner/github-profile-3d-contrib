@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import * as util from './utils';
 import * as type from './type';
+import { Segment, toSegments } from './bar-segments';
 
 const ANGLE = 30;
 
@@ -163,6 +164,154 @@ export const addDefines = (
     }
 };
 
+type RectSelection = d3.Selection<SVGRectElement, unknown, null, unknown>;
+type GroupSelection = d3.Selection<SVGGElement, unknown, null, unknown>;
+
+const paintFace = (
+    rect: RectSelection,
+    panel: PanelType,
+    segment: Segment,
+    cal: type.CalendarInfo,
+    settings: type.FullSettings,
+    week: number,
+): void => {
+    if (segment.source !== null) {
+        rect.attr('class', `src-${panel}-${segment.source}`);
+    } else if (settings.type === 'normal') {
+        addNormalColor(rect, cal.contributionLevel, panel);
+    } else if (settings.type === 'season') {
+        addSeasonColor(rect, cal.contributionLevel, panel, cal.date);
+    } else if (settings.type === 'rainbow') {
+        addRainbowColor(rect, cal.contributionLevel, panel, settings, week);
+    } else if (settings.type === 'bitmap') {
+        addBitmapPattern(rect, cal.contributionLevel, panel);
+    }
+};
+
+/** Width of the unscaled face rectangle: bitmap patterns need their own unit. */
+const faceWidth = (
+    panel: PanelType,
+    segment: Segment,
+    cal: type.CalendarInfo,
+    settings: type.FullSettings,
+    dxx: number,
+): number =>
+    settings.type === 'bitmap' && segment.source === null
+        ? Math.max(
+              1,
+              settings.contribPatterns[cal.contributionLevel][panel].width,
+          )
+        : dxx;
+
+const unique = (values: Array<number>): Array<number> =>
+    values
+        .map((v) => Math.min(1, Math.max(0, v)))
+        .sort((a, b) => a - b)
+        .filter((v, i, arr) => i === 0 || v !== arr[i - 1]);
+
+/**
+ * Grow a side face together with the rising bar.
+ *
+ * The bar group rises from 3px to its full height over the animation, so the
+ * ground moves down in the group's coordinates. A segment is clipped at the
+ * group origin until the bar has risen past its top, which makes `y` and
+ * `height` piecewise linear with breakpoints at the segment's bottom and top.
+ */
+const animateSideFace = (
+    rect: RectSelection,
+    segment: Segment,
+    calHeight: number,
+    scale: number,
+): void => {
+    const rise = calHeight - 3;
+    const keyTimes = unique([
+        0,
+        (segment.bottom - 3) / rise,
+        (segment.top - 3) / rise,
+        1,
+    ]);
+    const frames = keyTimes.map((t) => {
+        const current = 3 + rise * t;
+        const y = Math.max(0, current - segment.top);
+        const height =
+            current > segment.bottom
+                ? Math.min(current, segment.top) - segment.bottom
+                : 0;
+        return { y: y / scale, height: height / scale };
+    });
+    const times = keyTimes.map((t) => util.toFixed(t)).join(';');
+    rect.append('animate')
+        .attr('attributeName', 'y')
+        .attr('values', frames.map((f) => util.toFixed(f.y)).join(';'))
+        .attr('keyTimes', times)
+        .attr('dur', '3s')
+        .attr('repeatCount', '1');
+    rect.append('animate')
+        .attr('attributeName', 'height')
+        .attr('values', frames.map((f) => util.toFixed(f.height)).join(';'))
+        .attr('keyTimes', times)
+        .attr('dur', '3s')
+        .attr('repeatCount', '1');
+};
+
+const addSideFace = (
+    bar: GroupSelection,
+    panel: 'left' | 'right',
+    segment: Segment,
+    calHeight: number,
+    width: number,
+    dxx: number,
+    dyy: number,
+    isAnimate: boolean,
+): RectSelection => {
+    const scale = Math.sqrt(dxx ** 2 + dyy ** 2) / width;
+    const position =
+        panel === 'left'
+            ? `skewY(${ANGLE})`
+            : `translate(${util.toFixed(dxx)} ${util.toFixed(
+                  dyy,
+              )}) skewY(${-ANGLE})`;
+    const rect = bar
+        .append('rect')
+        .attr('stroke', 'none')
+        .attr('x', 0)
+        .attr('y', util.toFixed((calHeight - segment.top) / scale))
+        .attr('width', util.toFixed(width))
+        .attr('height', util.toFixed((segment.top - segment.bottom) / scale))
+        .attr(
+            'transform',
+            `${position} scale(${util.toFixed(dxx / width)} ${util.toFixed(
+                scale,
+            )})`,
+        );
+    if (isAnimate) {
+        animateSideFace(rect, segment, calHeight, scale);
+    }
+    return rect;
+};
+
+const addTopFace = (
+    bar: GroupSelection,
+    width: number,
+    dxx: number,
+    dyy: number,
+): RectSelection =>
+    bar
+        .append('rect')
+        .attr('stroke', 'none')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', util.toFixed(width))
+        .attr('height', util.toFixed(width))
+        .attr(
+            'transform',
+            `skewY(${-ANGLE}) skewX(${util.toFixed(
+                atan(dxx / 2 / dyy),
+            )}) scale(${util.toFixed(dxx / width)} ${util.toFixed(
+                (2 * dyy) / width,
+            )})`,
+        );
+
 export const create3DContrib = (
     svg: d3.Selection<SVGSVGElement, unknown, null, unknown>,
     userInfo: type.UserInfo,
@@ -200,11 +349,12 @@ export const create3DContrib = (
 
         const baseX = offsetX + (week - dayOfWeek) * dx;
         const baseY = offsetY + (week + dayOfWeek) * dy;
-        // ref. https://github.com/yoshi389111/github-profile-3d-contrib/issues/27
-        const calHeight = Math.log10(cal.contributionCount / 20 + 1) * 144 + 3;
-        const contribLevel = cal.contributionLevel;
+        const segments = toSegments(cal);
+        const calHeight = segments[segments.length - 1].top;
 
-        const isAnimate = settings.growingAnimation || isForcedAnimation;
+        const isAnimate =
+            (settings.growingAnimation || isForcedAnimation) &&
+            cal.contributionCount > 0;
 
         const bar = group
             .append('g')
@@ -214,7 +364,7 @@ export const create3DContrib = (
                     baseY - calHeight,
                 )})`,
             );
-        if (isAnimate && contribLevel !== 0) {
+        if (isAnimate) {
             bar.append('animateTransform')
                 .attr('attributeName', 'transform')
                 .attr('type', 'translate')
@@ -230,123 +380,29 @@ export const create3DContrib = (
                 .attr('repeatCount', '1');
         }
 
-        const widthTop =
-            settings.type === 'bitmap'
-                ? Math.max(1, settings.contribPatterns[contribLevel].top.width)
-                : dxx;
-        const topPanel = bar
-            .append('rect')
-            .attr('stroke', 'none')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('width', util.toFixed(widthTop))
-            .attr('height', util.toFixed(widthTop))
-            .attr(
-                'transform',
-                `skewY(${-ANGLE}) skewX(${util.toFixed(
-                    atan(dxx / 2 / dyy),
-                )}) scale(${util.toFixed(dxx / widthTop)} ${util.toFixed(
-                    (2 * dyy) / widthTop,
-                )})`,
-            );
+        const topSegment = segments[segments.length - 1];
+        const topPanel = addTopFace(
+            bar,
+            faceWidth('top', topSegment, cal, settings, dxx),
+            dxx,
+            dyy,
+        );
+        paintFace(topPanel, 'top', topSegment, cal, settings, week);
 
-        if (settings.type === 'normal') {
-            addNormalColor(topPanel, contribLevel, 'top');
-        } else if (settings.type === 'season') {
-            addSeasonColor(topPanel, contribLevel, 'top', cal.date);
-        } else if (settings.type === 'rainbow') {
-            addRainbowColor(topPanel, contribLevel, 'top', settings, week);
-        } else if (settings.type === 'bitmap') {
-            addBitmapPattern(topPanel, contribLevel, 'top');
-        }
-
-        const widthLeft =
-            settings.type === 'bitmap'
-                ? Math.max(1, settings.contribPatterns[contribLevel].left.width)
-                : dxx;
-        const scaleLeft = Math.sqrt(dxx ** 2 + dyy ** 2) / widthLeft;
-        const heightLeft = calHeight / scaleLeft;
-        const leftPanel = bar
-            .append('rect')
-            .attr('stroke', 'none')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('width', util.toFixed(widthLeft))
-            .attr('height', util.toFixed(heightLeft))
-            .attr(
-                'transform',
-                `skewY(${ANGLE}) scale(${util.toFixed(
-                    dxx / widthLeft,
-                )} ${util.toFixed(scaleLeft)})`,
-            );
-
-        if (settings.type === 'normal') {
-            addNormalColor(leftPanel, contribLevel, 'left');
-        } else if (settings.type === 'season') {
-            addSeasonColor(leftPanel, contribLevel, 'left', cal.date);
-        } else if (settings.type === 'rainbow') {
-            addRainbowColor(leftPanel, contribLevel, 'left', settings, week);
-        } else if (settings.type === 'bitmap') {
-            addBitmapPattern(leftPanel, contribLevel, 'left');
-        }
-        if (isAnimate && contribLevel !== 0) {
-            leftPanel
-                .append('animate')
-                .attr('attributeName', 'height')
-                .attr(
-                    'values',
-                    `${util.toFixed(3 / scaleLeft)};${util.toFixed(heightLeft)}`,
-                )
-                .attr('dur', '3s')
-                .attr('repeatCount', '1');
-        }
-
-        const widthRight =
-            settings.type === 'bitmap'
-                ? Math.max(
-                      1,
-                      settings.contribPatterns[contribLevel].right.width,
-                  )
-                : dxx;
-        const scaleRight = Math.sqrt(dxx ** 2 + dyy ** 2) / widthRight;
-        const heightRight = calHeight / scaleRight;
-        const rightPanel = bar
-            .append('rect')
-            .attr('stroke', 'none')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('width', util.toFixed(widthRight))
-            .attr('height', util.toFixed(heightRight))
-            .attr(
-                'transform',
-                `translate(${util.toFixed(dxx)} ${util.toFixed(
+        for (const panel of ['left', 'right'] as const) {
+            for (const segment of segments) {
+                const face = addSideFace(
+                    bar,
+                    panel,
+                    segment,
+                    calHeight,
+                    faceWidth(panel, segment, cal, settings, dxx),
+                    dxx,
                     dyy,
-                )}) skewY(${-ANGLE}) scale(${util.toFixed(
-                    dxx / widthRight,
-                )} ${util.toFixed(scaleRight)})`,
-            );
-
-        if (settings.type === 'normal') {
-            addNormalColor(rightPanel, contribLevel, 'right');
-        } else if (settings.type === 'season') {
-            addSeasonColor(rightPanel, contribLevel, 'right', cal.date);
-        } else if (settings.type === 'rainbow') {
-            addRainbowColor(rightPanel, contribLevel, 'right', settings, week);
-        } else if (settings.type === 'bitmap') {
-            addBitmapPattern(rightPanel, contribLevel, 'right');
-        }
-        if (isAnimate && contribLevel !== 0) {
-            rightPanel
-                .append('animate')
-                .attr('attributeName', 'height')
-                .attr(
-                    'values',
-                    `${util.toFixed(3 / scaleRight)};${util.toFixed(
-                        heightRight,
-                    )}`,
-                )
-                .attr('dur', '3s')
-                .attr('repeatCount', '1');
+                    isAnimate,
+                );
+                paintFace(face, panel, segment, cal, settings, week);
+            }
         }
     });
 };
