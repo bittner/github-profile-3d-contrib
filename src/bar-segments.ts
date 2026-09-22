@@ -13,7 +13,10 @@ export interface Segment {
 const barHeight = (count: number): number =>
     Math.log10(count / 20 + 1) * 144 + 3;
 
-/** Split a day's bar into stacked segments, GitHub at the bottom. */
+/**
+ * Split a day's bar into stacked segments, the largest count at the bottom
+ * so that small contributions stay visible on top; GitHub wins ties.
+ */
 export const toSegments = (cal: type.CalendarInfo): Array<Segment> => {
     const externalTotal = cal.externalContributions
         .map((c) => c.contributionCount)
@@ -25,6 +28,7 @@ export const toSegments = (cal: type.CalendarInfo): Array<Segment> => {
             c.contributionCount,
         ]),
     ];
+    parts.sort((a, b) => b[1] - a[1]);
     const segments: Array<Segment> = [];
     let cumulative = 0;
     for (const [source, count] of parts) {

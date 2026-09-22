@@ -150,7 +150,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.toSegments = void 0;
 // ref. https://github.com/yoshi389111/github-profile-3d-contrib/issues/27
 const barHeight = (count) => Math.log10(count / 20 + 1) * 144 + 3;
-/** Split a day's bar into stacked segments, GitHub at the bottom. */
+/**
+ * Split a day's bar into stacked segments, the largest count at the bottom
+ * so that small contributions stay visible on top; GitHub wins ties.
+ */
 const toSegments = (cal) => {
     const externalTotal = cal.externalContributions
         .map((c) => c.contributionCount)
@@ -162,6 +165,7 @@ const toSegments = (cal) => {
             c.contributionCount,
         ]),
     ];
+    parts.sort((a, b) => b[1] - a[1]);
     const segments = [];
     let cumulative = 0;
     for (const [source, count] of parts) {
