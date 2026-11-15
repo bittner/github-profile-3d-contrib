@@ -1207,6 +1207,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.fetchExternalContributions = exports.fetchDailyCounts = exports.sourceDarkColor = exports.sourceColor = exports.parseExternalSources = exports.PALETTE = void 0;
 const axios_1 = __importDefault(__nccwpck_require__(87269));
+const HEADERS = {
+    Accept: 'application/json',
+    'User-Agent': 'github-profile-3d-contrib (+https://github.com/bittner/github-profile-3d-contrib)',
+};
 exports.PALETTE = ['#fc6d26', '#813d9c', '#2185d0', '#e6b422'];
 const isSourceType = (value) => value === 'gitlab' || value === 'forgejo';
 const validate = (value, index) => {
@@ -1259,7 +1263,7 @@ const toIsoDate = (epochSeconds) => new Date(epochSeconds * 1000).toISOString().
 const fetchGitLab = async (source) => {
     const url = `${source.url}/users/${source.user}/calendar.json`;
     const response = await axios_1.default.get(url, {
-        headers: { Accept: 'application/json' },
+        headers: HEADERS,
     });
     return new Map(Object.entries(response.data).map(([date, count]) => [
         date,
@@ -1269,7 +1273,7 @@ const fetchGitLab = async (source) => {
 /** Forgejo/Gitea: `/api/v1/users/<user>/heatmap` -> `[{ timestamp, contributions }]` */
 const fetchForgejo = async (source) => {
     const url = `${source.url}/api/v1/users/${source.user}/heatmap`;
-    const response = await axios_1.default.get(url, { headers: { Accept: 'application/json' } });
+    const response = await axios_1.default.get(url, { headers: HEADERS });
     const days = new Map();
     for (const entry of response.data) {
         const date = toIsoDate(entry.timestamp);
