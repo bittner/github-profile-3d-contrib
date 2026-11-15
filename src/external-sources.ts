@@ -1,6 +1,12 @@
 import axios from 'axios';
 import * as type from './type';
 
+const HEADERS = {
+    Accept: 'application/json',
+    'User-Agent':
+        'github-profile-3d-contrib (+https://github.com/bittner/github-profile-3d-contrib)',
+};
+
 export const PALETTE = ['#fc6d26', '#813d9c', '#2185d0', '#e6b422'];
 
 /** daily contribution counts keyed by ISO date ("YYYY-MM-DD") */
@@ -81,7 +87,7 @@ const fetchGitLab = async (
 ): Promise<DailyCounts> => {
     const url = `${source.url}/users/${source.user}/calendar.json`;
     const response = await axios.get<Record<string, number>>(url, {
-        headers: { Accept: 'application/json' },
+        headers: HEADERS,
     });
     return new Map(
         Object.entries(response.data).map(([date, count]) => [
@@ -98,7 +104,7 @@ const fetchForgejo = async (
     const url = `${source.url}/api/v1/users/${source.user}/heatmap`;
     const response = await axios.get<
         Array<{ timestamp: number; contributions: number }>
-    >(url, { headers: { Accept: 'application/json' } });
+    >(url, { headers: HEADERS });
     const days: DailyCounts = new Map();
     for (const entry of response.data) {
         const date = toIsoDate(entry.timestamp);
